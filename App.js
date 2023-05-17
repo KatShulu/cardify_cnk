@@ -43,7 +43,7 @@ export default function App() {
     <PaperProvider>
       <NavigationContainer>
         <Appbar.Header>
-          <Appbar.Content title="Nasapp" />
+          <Appbar.Content title="Cardify" />
         </Appbar.Header>
         <BottomNavigation
           navigationState={{ index, routes }}
