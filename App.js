@@ -6,20 +6,25 @@ import {
   Appbar,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import CreateDeckScreen from "./screens/CreateDeckScreen.js";
 import HomeScreen from "./screens/HomeScreen.js";
+import CreateDeckScreen from "./screens/CreateDeckScreen.js";
+import CollectionsScreen from "./screens/CollectionsScreen.js";
+
 export default function App() {
   // Initializing state for the current tab index
   const [index, setIndex] = useState(0);
   // Defining the routes for the Bottom Navigation Tabbar
   const routes = [
-    { key: "HomeScreen", title: "Home", icon: "message-image" },
-    { key: "CreateDeckScreen", title: "Deck", icon: "image-multiple"},
+    { key: "HomeScreen", title: "Learn", icon: "card-bulleted" },
+    { key: "CreateDeckScreen", title: "Create", icon: "card-plus"},
+    { key: "CollectionsScreen", title: "Collections", icon: "cards"},
+
   ];
   // Mapping the screens to their respective keys in the Bottom Navigation Tabbar
   const renderScene = BottomNavigation.SceneMap({
     HomeScreen: HomeScreen,
     CreateDeckScreen: CreateDeckScreen,
+    CollectionsScreen: CollectionsScreen,
   });
   // Rendering the icon for each tab
   const renderIcon = ({ route, color }) => {

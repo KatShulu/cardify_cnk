@@ -22,8 +22,6 @@ export default function CreateDeckScreen() {
         multiline={true}
       />
       <Button
-      // TODO : choose between onPress or onClick a Submit event
-      // this should save the card in the phone local storage 
         title="Save Card"
         color="#841584"
         accessibilityLabel="Button to save your card in your local storage button"

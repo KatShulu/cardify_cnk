@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     width: 318,
     height: 382,
     borderRadius: 8,
-    backgroundColor: "#9c27b0",
+    backgroundColor: "#841584",
     elevation: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   wordText: {
     fontSize: 20,
     textAlign: "center",
-    color: "#000",
+    color: "#fff",
   },
   definitionText: {
     fontSize: 16,
