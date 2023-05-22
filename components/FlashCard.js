@@ -3,8 +3,8 @@ import { View, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
 import * as Animatable from "react-native-animatable";
 
-const FlashCard = ({ word, definition }) => {
-  const [flipped, setFlipped] = useState(false);
+const FlashCard = ({ word, definition, side }) => {
+  const [flipped, setFlipped] = useState(side);
   const cardRef = useRef(null);
 
   const handleFlipCard = () => {
