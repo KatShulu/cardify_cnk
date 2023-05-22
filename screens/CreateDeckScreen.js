@@ -11,13 +11,10 @@ import {
 import { TextInput } from "react-native-paper";
 import * as SecureStore from "expo-secure-store";
 
+
 export default function CreateDeckScreen() {
   const [notion, setNotion] = useState("");
   const [definition, setDefinition] = useState("");
-
-  const saveCard = async (key, value) => {
-    await SecureStore.setItemAsync(key, value);
-  };
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -63,4 +60,8 @@ export default function CreateDeckScreen() {
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
+}
+
+async function saveCard(key, value) {
+  await SecureStore.setItemAsync(key, value);
 }
