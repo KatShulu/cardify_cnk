@@ -9,8 +9,11 @@ import {
   Platform,
 } from "react-native";
 import { TextInput } from "react-native-paper";
-import * as SecureStore from "expo-secure-store";
-
+import {
+  saveData,
+  retrieveData,
+  deleteData,
+} from "../services/HandleCardLocalStorage.js";
 
 export default function CreateDeckScreen() {
   const [notion, setNotion] = useState("");
@@ -49,19 +52,13 @@ export default function CreateDeckScreen() {
             color="#841584"
             accessibilityLabel="Button to save your card in your local storage button"
             onPress={() => {
-              saveCard(notion, definition);
+              saveData(JSON.stringify({ key: notion, value: definition }));
+              console.log(retrieveData());
               Keyboard.dismiss();
-              //TODO: check what these functions do and implement local storage
-              // onChangeKey('Your key here');
-              // onChangeValue('Your value here');
             }}
           />
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
-}
-
-async function saveCard(key, value) {
-  await SecureStore.setItemAsync(key, value);
 }
