@@ -12,7 +12,6 @@ const FlashCard = ({ word, definition, isFlipped, handleFlipCard }) => {
     }
   }, [isFlipped]);
   return (
-    <View style={styles.container}>
       <View style={styles.cardContainer}>
         <TouchableWithoutFeedback onPress={handleFlipCard}>
           <Animatable.View ref={cardRef} style={styles.card}>
@@ -26,20 +25,15 @@ const FlashCard = ({ word, definition, isFlipped, handleFlipCard }) => {
           </Animatable.View>
         </TouchableWithoutFeedback>
       </View>
-    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   cardContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
+    height: '70%',
     marginTop: 'auto',
     marginBottom: 'auto',
   },
