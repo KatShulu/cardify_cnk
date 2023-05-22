@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Text, View, Button } from "react-native";
 import { TextInput } from "react-native-paper";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
+
 
 export default function CreateDeckScreen() {
   const [notion, setNotion] = useState("");
@@ -26,17 +27,17 @@ export default function CreateDeckScreen() {
         title="Save Card"
         color="#841584"
         accessibilityLabel="Button to save your card in your local storage button"
-        onPress={storeData}
+        onPress={() => {
+          saveCard(notion, definition);
+          //TODO: check what these functions do
+          // onChangeKey('Your key here');
+          // onChangeValue('Your value here');
+        }}
       />
     </View>
   );
 }
 
-const storeData = async (value) => {
-  try {
-    const jsonValue = JSON.stringify(value)
-    await AsyncStorage.setItem('@storage_Key', jsonValue)
-  } catch (e) {
-    alert("could not save data")
-  }
+async function saveCard(key, value) {
+  await SecureStore.setItemAsync(key, value);
 }
