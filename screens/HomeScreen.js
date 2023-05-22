@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import RandomizeCard from '../components/RandomizeCard';
-import NewCardButton from '../components/NewCardButton';
 
 
 export default function Home() {

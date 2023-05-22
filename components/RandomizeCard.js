@@ -7,25 +7,17 @@ import NewCardButton from './NewCardButton';
 const RandomizeCard = () => {
   const [deck, setDeck] = useState([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(null);
-
-  useEffect(() => {
-    loadDeck();
-  }, []);
-
-  const loadDeck = () => {
-    setDeck(deckData);
-  };
+  const [isFlipped, setIsFlipped] = useState(false);
+  const currentCard = deck[currentCardIndex];
 
   const selectRandomCard = () => {
     const randomIndex = Math.floor(Math.random() * deck.length);
     setCurrentCardIndex(randomIndex);
-  };
-
-  const generateNewCard = () => {
-    selectRandomCard();
+    setIsFlipped(false); // Set the new card to the word side
   };
 
   useEffect(() => {
+    setDeck(deckData);
     if (deck.length > 0 && currentCardIndex === null) {
       selectRandomCard();
     }
@@ -36,15 +28,23 @@ const RandomizeCard = () => {
   }
 
   if (currentCardIndex === null) {
-    return null; // Return null until the first card is selected
+    return null;
   }
 
-  const currentCard = deck[currentCardIndex];
+  const handleFlipCard = () => {
+    setIsFlipped(!isFlipped);
+    
+  };
 
   return (
     <View>
-      <FlashCard word={currentCard.word} definition={currentCard.definition} />
-      <NewCardButton onPress={generateNewCard} />
+      <FlashCard
+        word={currentCard.word}
+        definition={currentCard.definition}
+        isFlipped={isFlipped}
+        handleFlipCard={handleFlipCard}
+      />
+      <NewCardButton onPress={selectRandomCard} />
     </View>
   );
 };
