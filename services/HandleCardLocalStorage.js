@@ -1,6 +1,6 @@
 import * as FileSystem from "expo-file-system";
 
-const filePath = FileSystem.documentDirectory + "deck.json";
+const filePath = `${FileSystem.documentDirectory}deck.json`;
 
 export const saveData = async (jsonData) => {
   try {
@@ -8,6 +8,7 @@ export const saveData = async (jsonData) => {
     console.log("JSON data saved successfully!");
   } catch (error) {
     console.log("Error saving JSON data:", error);
+    throw error;
   }
 };
 
@@ -29,6 +30,7 @@ export const deleteData = async () => {
     console.log("File deleted successfully!");
   } catch (error) {
     console.log("Error deleting file:", error);
+    throw error;
   }
 };
 
@@ -48,8 +50,6 @@ export const saveNewCard = async (newCard) => {
     }
   } catch (error) {
     console.log("Error saving new card:", error);
+    throw error;
   }
 };
-
-
-

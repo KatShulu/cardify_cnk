@@ -16,30 +16,57 @@ import {
 } from "../services/HandleCardLocalStorage.js";
 
 function CreateDeckScreen() {
-  const [deck, setDeck] = useState([]);
-  const [currentCardIndex, setCurrentCardIndex] = useState(null);
   const [notion, setNotion] = useState("");
   const [definition, setDefinition] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
   };
 
   const saveCard = async () => {
-    await saveNewCard(JSON.stringify({ [notion]: definition }));
-    retrieveData().then((data) => {
-      setDeck(data);
-      setCurrentCardIndex(null);
-    });
-    Keyboard.dismiss();
+    // Sanitize the inputs
+    const sanitizedNotion = sanitizeInput(notion);
+    const sanitizedDefinition = sanitizeInput(definition);
+
+    // Check if both inputs are filled
+    if (!sanitizedNotion || !sanitizedDefinition) {
+      // Handle case when either input is empty
+      alert("Please fill in both Notion and Definition");
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+
+      // Save the card
+      await saveNewCard(JSON.stringify({ [sanitizedNotion]: sanitizedDefinition }));
+
+      // Clear the inputs
+      setNotion("");
+      setDefinition("");
+
+      // Dismiss the keyboard
+      Keyboard.dismiss();
+    } catch (error) {
+      alert("Error saving the card. Please try again.");
+    } finally {
+      setIsSaving(false);
+    }
   };
-  
+
+  const sanitizeInput = (input) => {
+    return input.trim();
+  };
+
+  const isSaveDisabled = !notion || !definition || isSaving;
 
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : null}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} // Adjust the offset if needed
         enabled
       >
         <View>
@@ -64,6 +91,7 @@ function CreateDeckScreen() {
             color="#841584"
             accessibilityLabel="Button to save your card in your local storage button"
             onPress={saveCard}
+            disabled={isSaveDisabled}
           />
           <Button
             title="Delete deck"
@@ -82,4 +110,5 @@ function CreateDeckScreen() {
     </TouchableWithoutFeedback>
   );
 }
+
 export default CreateDeckScreen;

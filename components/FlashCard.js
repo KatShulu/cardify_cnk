@@ -8,28 +8,28 @@ const FlashCard = ({ word, definition, isFlipped, handleFlipCard }) => {
 
   useEffect(() => {
     if (cardRef.current) {
-        cardRef.current.flipInY(500);
+      cardRef.current.flipInY(500);
     }
   }, [isFlipped]);
+
   return (
-      <View style={styles.cardContainer}>
-        <TouchableWithoutFeedback onPress={handleFlipCard}>
-          <Animatable.View ref={cardRef} style={styles.card}>
-            <Card.Content style={styles.content}>
-              {!isFlipped ? (
-                <Title style={styles.wordText}>{word}</Title>
-              ) : (
-                <Paragraph style={styles.definitionText}>{definition}</Paragraph>
-              )}
-            </Card.Content>
-          </Animatable.View>
-        </TouchableWithoutFeedback>
-      </View>
+    <View style={styles.cardContainer}>
+      <TouchableWithoutFeedback onPress={handleFlipCard}>
+        <Animatable.View ref={cardRef} style={styles.card}>
+          <Card.Content style={styles.content}>
+            {!isFlipped ? (
+              <Title style={styles.text}>{word}</Title>
+            ) : (
+              <Paragraph style={styles.text}>{definition}</Paragraph>
+            )}
+          </Card.Content>
+        </Animatable.View>
+      </TouchableWithoutFeedback>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-
   cardContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -49,13 +49,8 @@ const styles = StyleSheet.create({
   content: {
     padding: 16,
   },
-  wordText: {
+  text: {
     fontSize: 20,
-    textAlign: 'center',
-    color: '#fff',
-  },
-  definitionText: {
-    fontSize: 16,
     textAlign: 'center',
     color: '#fff',
   },
