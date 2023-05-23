@@ -9,7 +9,7 @@ const DropdownMenu = ({ options }) => {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  const anchorPosition = { x: 190, y: 150 }; // Coordonnées fixes pour l'ancre du menu
+  const anchorPosition = { x: 130, y: 150 }; // Coordonnées fixes pour l'ancre du menu
 
   return (
     <View style={styles.container}>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     top: 0,
-    left: 80,
+    left: 22,
     zIndex: 999,
   },
   menuButton: {
