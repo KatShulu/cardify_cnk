@@ -55,7 +55,6 @@ export default function App() {
           onIndexChange={handleTabPress}
           renderScene={renderScene}
           renderIcon={renderIcon}
-          barStyle={{ backgroundColor: "#F5F5F5" }}
           labeled={true}
           accessibilityRole="tablist"
           accessibilityLabel="Navigation tabs"
