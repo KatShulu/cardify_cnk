@@ -53,3 +53,20 @@ export const saveNewCard = async (newCard) => {
     throw error;
   }
 };
+
+export const deleteCard = async (key) => {
+  try {
+    const jsonData = await FileSystem.readAsStringAsync(filePath);
+    const existingData = JSON.parse(jsonData);
+    const filteredData = existingData.filter((card) => {
+      const cardKey = Object.keys(card)[0];
+      return cardKey !== key;
+    });
+    const updatedJsonData = JSON.stringify(filteredData);
+    await FileSystem.writeAsStringAsync(filePath, updatedJsonData);
+    console.log(`Card with key "${key}" deleted successfully!`);
+  } catch (error) {
+    console.log("Error deleting card:", error);
+    throw error;
+  }
+};
