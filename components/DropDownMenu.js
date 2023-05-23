@@ -60,12 +60,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: "#F5F5F5",
     borderRadius: 5,
     paddingHorizontal: 10,
   },
   menuText: {
-    color: "white",
     marginRight: 5,
   },
   iconButton: {

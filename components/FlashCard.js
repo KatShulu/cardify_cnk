@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
   card: {
     height: 500,
     borderRadius: 8,
-    backgroundColor: '#AFA4CE',
+    backgroundColor: '#087E8A',
     elevation: 8,
     borderWidth: 5,
-    borderColor: 'lightgrey',
+    borderColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
   },

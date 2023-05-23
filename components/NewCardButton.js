@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, IconButton } from "react-native-paper";
+import { IconButton } from "react-native-paper";
 import { StyleSheet, View, Dimensions } from "react-native";
 
 const NewCardButton = ({ onPress }) => {
@@ -11,7 +11,7 @@ const NewCardButton = ({ onPress }) => {
       <View style={[styles.buttonContainer, styles.bottomLeft]}>
         <IconButton
           icon="check"
-          color="white"
+          iconColor="#F5F5F5"
           size={buttonSize}
           onPress={onPress}
           style={styles.validate}
@@ -20,7 +20,7 @@ const NewCardButton = ({ onPress }) => {
       <View style={[styles.buttonContainer, styles.bottomRight]}>
         <IconButton
           icon="close"
-          color="white"
+          iconColor="#F5F5F5"
           size={buttonSize}
           onPress={onPress}
           style={styles.cancel}
@@ -49,12 +49,12 @@ const styles = StyleSheet.create({
     right: 0,
   },
   validate: {
-    backgroundColor: "#7AA95C",
+    backgroundColor: "#82C1A6",
     borderRadius: 60,
   },
   cancel: {
     borderRadius: 60,
-    backgroundColor: "#A7001E",
+    backgroundColor: "#FF5A60",
   },
 });
 
