@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Menu, Divider, Text } from "react-native-paper";
 import { IconButton } from "react-native-paper";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 
 const DropdownMenu = ({ options }) => {
   const [visible, setVisible] = React.useState(false);
@@ -9,10 +9,14 @@ const DropdownMenu = ({ options }) => {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  const anchorPosition = { x: 130, y: 150 }; // Coordonnées fixes pour l'ancre du menu
+  const anchorPosition = { x: 200, y: 160 }; // Coordonnées fixes pour l'ancre du menu
+
+  const screenWidth = Dimensions.get('window').width;
+  const containerMargin = screenWidth * 0.03;
+  const menuButtonMarginTop = screenWidth * 0.02;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { marginLeft: containerMargin }]}>
       <Menu
         visible={visible}
         onDismiss={closeMenu}
@@ -32,7 +36,7 @@ const DropdownMenu = ({ options }) => {
           </React.Fragment>
         ))}
       </Menu>
-      <View style={styles.menuButton}>
+      <View style={[styles.menuButton, { marginTop: menuButtonMarginTop }]}>
         <Text style={styles.menuText}>Choose your Deck</Text>
         <IconButton
           icon="menu"
@@ -50,7 +54,6 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     top: 0,
-    left: 22,
     zIndex: 999,
   },
   menuButton: {
