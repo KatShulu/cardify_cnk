@@ -15,7 +15,9 @@ import {
   deleteData,
 } from "../services/HandleCardLocalStorage.js";
 
-export default function CreateDeckScreen() {
+function CreateDeckScreen() {
+  const [deck, setDeck] = useState([]);
+  const [currentCardIndex, setCurrentCardIndex] = useState(null);
   const [notion, setNotion] = useState("");
   const [definition, setDefinition] = useState("");
 
@@ -25,9 +27,13 @@ export default function CreateDeckScreen() {
 
   const saveCard = async () => {
     await saveNewCard(JSON.stringify({ [notion]: definition }));
-    await retrieveData();
+    retrieveData().then((data) => {
+      setDeck(data);
+      setCurrentCardIndex(null);
+    });
     Keyboard.dismiss();
   };
+  
 
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
@@ -76,3 +82,4 @@ export default function CreateDeckScreen() {
     </TouchableWithoutFeedback>
   );
 }
+export default CreateDeckScreen;

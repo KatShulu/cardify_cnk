@@ -1,49 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import FlashCard from './FlashCard';
-import deckData from '../flashcardDeck.json';
 import NewCardButton from './NewCardButton';
+import { retrieveData } from '../services/HandleCardLocalStorage';
 
 const RandomizeCard = () => {
   const [deck, setDeck] = useState([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
-  const currentCard = deck[currentCardIndex];
 
   const selectRandomCard = () => {
     const randomIndex = Math.floor(Math.random() * deck.length);
     setCurrentCardIndex(randomIndex);
     setIsFlipped(false); // Set the new card to the word side
   };
+  
 
   useEffect(() => {
-    setDeck(deckData);
+    const fetchData = async () => {
+      const data = await retrieveData();
+      setDeck(data);
+    };
+
+    fetchData();
+  }, [currentCardIndex]);
+
+  useEffect(() => {
     if (deck.length > 0 && currentCardIndex === null) {
       selectRandomCard();
     }
-  }, [deck]);
+  }, [deck, currentCardIndex]);
 
   if (deck.length === 0) {
     return <View>{/* Handle case when the deck is empty */}</View>;
   }
 
-  if (currentCardIndex === null) {
-    return null;
-  }
-
   const handleFlipCard = () => {
     setIsFlipped(!isFlipped);
-    
   };
 
   return (
     <View>
-      <FlashCard
-        word={currentCard.word}
-        definition={currentCard.definition}
-        isFlipped={isFlipped}
-        handleFlipCard={handleFlipCard}
-      />
+      {currentCardIndex !== null ? (
+        <FlashCard
+          word={Object.keys(deck[currentCardIndex])[0]}
+          definition={Object.values(deck[currentCardIndex])[0]}
+          isFlipped={isFlipped}
+          handleFlipCard={handleFlipCard}
+        />
+      ) : null}
       <NewCardButton onPress={selectRandomCard} />
     </View>
   );

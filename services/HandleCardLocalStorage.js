@@ -16,8 +16,10 @@ export const retrieveData = async () => {
     const jsonData = await FileSystem.readAsStringAsync(filePath);
     const jsonObject = JSON.parse(jsonData);
     console.log("Retrieved JSON data:", jsonObject);
+    return jsonObject;
   } catch (error) {
     console.log("Error retrieving JSON data:", error);
+    return [];
   }
 };
 
@@ -34,17 +36,20 @@ export const saveNewCard = async (newCard) => {
   try {
     const fileInfo = await FileSystem.getInfoAsync(filePath);
     if (fileInfo.exists) {
-      const jsonData = (await FileSystem.readAsStringAsync(filePath)) || "{}";
+      const jsonData = await FileSystem.readAsStringAsync(filePath);
       const existingData = JSON.parse(jsonData);
-      const combinedData = { ...existingData, ...JSON.parse(newCard) };
+      const combinedData = [...existingData, JSON.parse(newCard)];
       const combinedJsonData = JSON.stringify(combinedData);
       await FileSystem.writeAsStringAsync(filePath, combinedJsonData);
       console.log("New card saved successfully!");
     } else {
-      saveData(newCard);
+      await saveData(`[${newCard}]`);
       console.log("New card saved successfully!");
     }
   } catch (error) {
     console.log("Error saving new card:", error);
   }
 };
+
+
+
