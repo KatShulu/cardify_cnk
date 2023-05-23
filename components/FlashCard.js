@@ -33,18 +33,18 @@ const styles = StyleSheet.create({
   cardContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: '70%',
-    marginTop: 'auto',
+    marginTop: 60,
     marginBottom: 'auto',
   },
   card: {
-    width: 318,
-    height: 382,
+    width: 350,
+    height: 430,
     borderRadius: 8,
-    backgroundColor: '#841584',
+    backgroundColor: '#AFA4CE',
     elevation: 8,
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: "#000",
   },
   content: {
     padding: 16,
