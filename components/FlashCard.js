@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: 80,
     marginBottom: 'auto',
   },
   card: {
