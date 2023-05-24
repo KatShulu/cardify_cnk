@@ -56,7 +56,7 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
         ))}
       </Menu>
       <View style={[styles.menuButton, { marginTop: menuButtonMarginTop }]}>
-        <Text style={styles.menuText}>Choose your Deck</Text>
+        <Text style={styles.menuText}>{selectedDeck?selectedDeck:"Choose your Deck"}</Text>
         <IconButton
           icon="menu"
           onPress={openMenu}
