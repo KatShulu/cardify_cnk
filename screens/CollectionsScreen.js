@@ -1,61 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Title } from "react-native-paper";
+import {getDeckFiles} from "../services/DeckLocalStorage";
 
 export default function CollectionsScreen() {
+
+  const [decks, setDecks] = useState([]);
+
+  useEffect(() => {
+    // Récupérer les données des decks au montage du composant
+    const fetchData = async () => {
+      const data = await getDeckFiles();
+      console.log(data)
+      setDecks(data);
+    };
+
+    fetchData();
+  }, []);
+
+  
   return (
     <View style={styles.container}>
       <View style={styles.column}>
-        <TouchableOpacity>
-          <View style={styles.box}>
-            <Title style={styles.title}>Name Deck #1</Title>
-            <Text style={styles.text} numberOfLines={2}>
-              Description of Deck
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.box}>
-            <Title style={styles.title}>Name Deck #2</Title>
-            <Text style={styles.text} numberOfLines={2}>
-              Description of Deck
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.box}>
-            <Title style={styles.title}>Name Deck #3</Title>
-            <Text style={styles.text} numberOfLines={2}>
-              Description of Deck
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.column}>
-        <TouchableOpacity>
-          <View style={styles.box}>
-            <Title style={styles.title}>Name Deck #4</Title>
-            <Text style={styles.text} numberOfLines={2}>
-              Description of Deck
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.box}>
-            <Title style={styles.title}>Name Deck #5</Title>
-            <Text style={styles.text} numberOfLines={2}>
-              Description of Deck
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.box}>
-            <Title style={styles.title}>Name Deck #6</Title>
-            <Text style={styles.text} numberOfLines={2}>
-              Description of Deck
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {decks.map((deck, index) => (
+          <TouchableOpacity key={index}>
+            <View style={styles.box}>
+              <Title style={styles.title}>{deck.name}</Title>
+              <Text style={styles.text} numberOfLines={2}>
+                {deck.description}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
@@ -85,7 +61,7 @@ const styles = StyleSheet.create({
     borderColor: "#F5F5F5",
     borderWidth: 2,
     width: "100%",
-    height: 200,
+    height: 400,
     marginBottom: 10,
     overflow: "hidden",
   },
