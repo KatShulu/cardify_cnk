@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import {
   Provider as PaperProvider,
   BottomNavigation,
@@ -18,7 +18,6 @@ export default function App() {
     { key: "HomeScreen", title: "Learn", icon: "card-bulleted" },
     { key: "CreateDeckScreen", title: "Create", icon: "card-plus"},
     { key: "CollectionsScreen", title: "Collections", icon: "cards"},
-
   ];
   // Mapping the screens to their respective keys in the Bottom Navigation Tabbar
   const renderScene = BottomNavigation.SceneMap({
