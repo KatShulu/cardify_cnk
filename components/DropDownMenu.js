@@ -4,14 +4,13 @@ import { IconButton } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
 import { getDeckFiles } from "../services/DeckLocalStorage";
 
-const DropdownMenu = () => {
+const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
   const [visible, setVisible] = useState(false);
-  const [selectedDeck, setSelectedDeck] = useState(null);
   const [decks, setDecks] = useState([]);
 
   useEffect(() => {
     retrieveDeckNames();
-  }, []);
+  }, [selectedDeck]); // Update decks state whenever selectedDeck changes
 
   const retrieveDeckNames = async () => {
     try {
@@ -26,8 +25,7 @@ const DropdownMenu = () => {
   const closeMenu = () => setVisible(false);
 
   const handleDeckSelection = (deck) => {
-    setSelectedDeck(deck);
-    console.log("Selected deck:", deck);
+    onDeckSelection(deck);
     closeMenu();
   };
 
