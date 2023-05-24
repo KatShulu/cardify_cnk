@@ -9,16 +9,15 @@ import {
   Platform,
 } from "react-native";
 import { TextInput } from "react-native-paper";
-import {
-  saveNewCard,
-  retrieveData,
-  deleteData,
-} from "../services/HandleCardLocalStorage.js";
+import { saveNewCard, createDeckFile } from "../services/DeckLocalStorage";
+import  DropdownMenu from "../components/DropDownMenu";
+
 
 function CreateDeckScreen() {
   const [notion, setNotion] = useState("");
   const [definition, setDefinition] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [deckName, setDeckName] = useState("");
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -40,7 +39,7 @@ function CreateDeckScreen() {
       setIsSaving(true);
 
       // Save the card
-      await saveNewCard(JSON.stringify({ [sanitizedNotion]: sanitizedDefinition }));
+      await saveNewCard(deckName, { [sanitizedNotion]: sanitizedDefinition });
 
       // Clear the inputs
       setNotion("");
@@ -52,6 +51,22 @@ function CreateDeckScreen() {
       alert("Error saving the card. Please try again.");
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const createNewDeck = async () => {
+    if (!deckName) {
+      alert("Please enter a deck name");
+      return;
+    }
+
+    try {
+      await createDeckFile(deckName);
+      alert(`Deck "${deckName}" created successfully!`);
+      setDeckName("");
+    } catch (error) {
+      alert("Error creating the deck. Please try again.");
+      console.log(error, deckName)
     }
   };
 
@@ -70,6 +85,8 @@ function CreateDeckScreen() {
         enabled
       >
         <View>
+        <DropdownMenu />
+
           <Text>🎴 Now create your own Cards!</Text>
 
           <TextInput
@@ -85,6 +102,12 @@ function CreateDeckScreen() {
             onChangeText={(newText) => setDefinition(newText)}
             multiline={true}
           />
+          <TextInput
+            label="Deck Name"
+            value={deckName}
+            placeholder="Enter the name of the deck"
+            onChangeText={(newText) => setDeckName(newText)}
+          />
 
           <Button
             title="Save Card"
@@ -94,16 +117,10 @@ function CreateDeckScreen() {
             disabled={isSaveDisabled}
           />
           <Button
-            title="Delete deck"
-            color="#849586"
-            accessibilityLabel="Button to delete your deck in your local storage button"
-            onPress={deleteData}
-          />
-          <Button
-            title="Show deck"
-            color="#844243"
-            accessibilityLabel="Button to show your deck in your local storage button"
-            onPress={retrieveData}
+            title="Create Deck"
+            color="#1f8ded"
+            accessibilityLabel="Button to create a new deck in your local storage button"
+            onPress={createNewDeck}
           />
         </View>
       </KeyboardAvoidingView>

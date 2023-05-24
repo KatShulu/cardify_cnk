@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import FlashCard from './FlashCard';
 import NewCardButton from './NewCardButton';
-import { retrieveData } from '../services/HandleCardLocalStorage';
+import { retrieveData } from '../services/CardLocalStorage';
 
 const RandomizeCard = () => {
   const [deck, setDeck] = useState([]);
