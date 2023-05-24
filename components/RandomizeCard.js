@@ -12,15 +12,13 @@ const RandomizeCard = ({ selectedDeck }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Step 1: Function to select a random card from the deck
   const selectRandomCard = () => {
     const randomIndex = Math.floor(Math.random() * deck.length);
     setCurrentCardIndex(randomIndex);
-    setIsFlipped(false); // Set the new card to the word side
+    setIsFlipped(false);
   };
 
   useEffect(() => {
-    // Step 2: Fetch deck data from local storage
     const fetchData = async () => {
       try {
         const deckData = await retrieveData(selectedDeck);
@@ -33,7 +31,6 @@ const RandomizeCard = ({ selectedDeck }) => {
       }
     };
 
-    // Trigger data fetching when selected deck changes
     if (selectedDeck) {
       setIsLoading(true);
       fetchData();
@@ -41,7 +38,6 @@ const RandomizeCard = ({ selectedDeck }) => {
   }, [selectedDeck]);
 
   useEffect(() => {
-    // Step 3: Select a random card when the deck changes
     if (deck.length > 0) {
       selectRandomCard();
     }
@@ -58,9 +54,13 @@ const RandomizeCard = ({ selectedDeck }) => {
       </View>
     );
   }
-
-  if (error || deck.length === 0 || currentCardIndex === null) {
-    // Handle case when the deck is empty or no current card index
+  if (deck.length === 0){
+    return (
+      <View style={styles.errorContainer}>
+        <Text>Le deck sélectionné est vide.</Text>
+      </View>
+    );
+  }else if (error || currentCardIndex === null) {
     return (
       <View style={styles.errorContainer}>
         <Text>Error: Unable to load deck.</Text>
@@ -74,14 +74,12 @@ const RandomizeCard = ({ selectedDeck }) => {
 
   return (
     <View>
-      {/* Display the FlashCard component with the current card */}
       <FlashCard
         word={word}
         definition={definition}
         isFlipped={isFlipped}
         handleFlipCard={handleFlipCard}
       />
-      {/* Display the NewCardButton component for selecting a new random card */}
       <NewCardButton onPress={selectRandomCard} />
     </View>
   );

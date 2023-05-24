@@ -6,7 +6,7 @@ import {
   Appbar,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import HomeScreen from "./screens/HomeScreen.js";
+import LearnScreen from "./screens/LearnScreen.js";
 import CreateDeckScreen from "./screens/CreateDeckScreen.js";
 import CollectionsScreen from "./screens/CollectionsScreen.js";
 
@@ -15,13 +15,13 @@ export default function App() {
   const [index, setIndex] = useState(0);
   // Defining the routes for the Bottom Navigation Tabbar
   const routes = [
-    { key: "HomeScreen", title: "Learn", icon: "card-bulleted" },
+    { key: "LearnScreen", title: "Learn", icon: "card-bulleted" },
     { key: "CreateDeckScreen", title: "Create", icon: "card-plus"},
     { key: "CollectionsScreen", title: "Collections", icon: "cards"},
   ];
   // Mapping the screens to their respective keys in the Bottom Navigation Tabbar
   const renderScene = BottomNavigation.SceneMap({
-    HomeScreen: HomeScreen,
+    LearnScreen: LearnScreen,
     CreateDeckScreen: CreateDeckScreen,
     CollectionsScreen: CollectionsScreen,
   });
