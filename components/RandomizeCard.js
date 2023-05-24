@@ -1,6 +1,6 @@
 // RandomizeCard.js
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import FlashCard from './FlashCard';
 import NewCardButton from './NewCardButton';
 import { retrieveData } from '../services/CardLocalStorage';
@@ -9,8 +9,10 @@ const RandomizeCard = ({ selectedDeck }) => {
   const [deck, setDeck] = useState([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Function to select a random card from the deck
+  // Step 1: Function to select a random card from the deck
   const selectRandomCard = () => {
     const randomIndex = Math.floor(Math.random() * deck.length);
     setCurrentCardIndex(randomIndex);
@@ -18,22 +20,28 @@ const RandomizeCard = ({ selectedDeck }) => {
   };
 
   useEffect(() => {
+    // Step 2: Fetch deck data from local storage
     const fetchData = async () => {
       try {
         const deckData = await retrieveData(selectedDeck);
         setDeck(deckData);
+        setIsLoading(false);
       } catch (error) {
+        setError(error);
+        setIsLoading(false);
         console.log(`Error retrieving data for deck "${selectedDeck}":`, error);
       }
     };
 
+    // Trigger data fetching when selected deck changes
     if (selectedDeck) {
+      setIsLoading(true);
       fetchData();
     }
   }, [selectedDeck]);
 
   useEffect(() => {
-    // Select a random card when the deck changes
+    // Step 3: Select a random card when the deck changes
     if (deck.length > 0) {
       selectRandomCard();
     }
@@ -43,9 +51,21 @@ const RandomizeCard = ({ selectedDeck }) => {
     setIsFlipped((prevState) => !prevState);
   };
 
-  if (deck.length === 0 || currentCardIndex === null) {
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if (error || deck.length === 0 || currentCardIndex === null) {
     // Handle case when the deck is empty or no current card index
-    return <View>{/* Display an appropriate message or loading state */}</View>;
+    return (
+      <View style={styles.errorContainer}>
+        <Text>Error: Unable to load deck.</Text>
+      </View>
+    );
   }
 
   const currentCard = deck[currentCardIndex];
@@ -66,5 +86,18 @@ const RandomizeCard = ({ selectedDeck }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default RandomizeCard;
