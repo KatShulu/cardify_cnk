@@ -1,3 +1,4 @@
+// RandomizeCard.js
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import FlashCard from './FlashCard';
@@ -39,7 +40,7 @@ const RandomizeCard = ({ selectedDeck }) => {
   }, [deck]);
 
   const handleFlipCard = () => {
-    setIsFlipped(!isFlipped);
+    setIsFlipped((prevState) => !prevState);
   };
 
   if (deck.length === 0 || currentCardIndex === null) {

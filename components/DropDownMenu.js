@@ -10,7 +10,8 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
 
   useEffect(() => {
     retrieveDeckNames();
-  }, [selectedDeck]);
+  }, [selectedDeck, decks]);
+  
   const retrieveDeckNames = async () => {
     try {
       const directoryContent = await getDeckFiles();
