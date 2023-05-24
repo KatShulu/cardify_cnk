@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import { View, TouchableWithoutFeedback, StyleSheet, Dimensions } from 'react-native';
-import { Card, Title, Paragraph } from 'react-native-paper';
+import { View, TouchableWithoutFeedback, StyleSheet, Dimensions, Text } from 'react-native';
+import { Card } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
 
 const FlashCard = ({ word, definition, isFlipped, handleFlipCard }) => {
@@ -8,7 +8,10 @@ const FlashCard = ({ word, definition, isFlipped, handleFlipCard }) => {
 
   useEffect(() => {
     if (cardRef.current) {
-      cardRef.current.flipInY(500);
+      cardRef.current.flipInY(500).catch(error => {
+        console.log('Error animating card:', error);
+        // Perform error handling here, such as displaying a fallback UI
+      });
     }
   }, [isFlipped]);
 
@@ -21,9 +24,9 @@ const FlashCard = ({ word, definition, isFlipped, handleFlipCard }) => {
         <Animatable.View ref={cardRef} style={[styles.card, { width: cardWidth }]}>
           <Card.Content style={styles.content}>
             {!isFlipped ? (
-              <Title style={styles.text}>{word}</Title>
+              <Text style={styles.text}>{word}</Text>
             ) : (
-              <Paragraph style={styles.text}>{definition}</Paragraph>
+              <Text style={styles.text}>{definition}</Text>
             )}
           </Card.Content>
         </Animatable.View>
