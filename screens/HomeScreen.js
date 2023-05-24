@@ -1,19 +1,23 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import RandomizeCard from '../components/RandomizeCard';
-import DropdownMenu from '../components/DropDownMenu';
+import React, { useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
+import RandomizeCard from "../components/RandomizeCard";
+import DropdownMenu from "../components/DropDownMenu";
 
 export default function Home() {
-  const options = [
-    { title: 'Deck 1', onPress: () => console.log('Option 1 selected') },
-    { title: 'Deck 2', onPress: () => console.log('Option 2 selected') },
-    { title: 'Deck 3', onPress: () => console.log('Option 3 selected') },
-  ];
+  const [selectedDeck, setSelectedDeck] = useState(null); // State to store the selected deck
 
+  const handleDeckSelection = (deck) => {
+    setSelectedDeck(deck);
+    // Additional logic to handle the selected deck if needed
+  };
   return (
     <View style={styles.container}>
-      <DropdownMenu options={options} />
-      <RandomizeCard />
+      <DropdownMenu
+        selectedDeck={selectedDeck}
+        onDeckSelection={handleDeckSelection}
+      />
+      {selectedDeck?<RandomizeCard selectedDeck={selectedDeck} />:<Text>pas de deck select</Text>}
+      
     </View>
   );
 }
@@ -21,7 +25,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

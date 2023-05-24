@@ -1,10 +1,11 @@
+// RandomizeCard.js
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import FlashCard from './FlashCard';
 import NewCardButton from './NewCardButton';
-import { retrieveData } from '../services/HandleCardLocalStorage';
+import { retrieveData } from '../services/CardLocalStorage';
 
-const RandomizeCard = () => {
+const RandomizeCard = ({ selectedDeck }) => {
   const [deck, setDeck] = useState([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -17,19 +18,19 @@ const RandomizeCard = () => {
   };
 
   useEffect(() => {
-    // Fetch data from storage when the component mounts
     const fetchData = async () => {
       try {
-        const data = await retrieveData();
-        setDeck(data);
+        const deckData = await retrieveData(selectedDeck);
+        setDeck(deckData);
       } catch (error) {
-        console.log('Error retrieving data:', error); // Avoid logging sensitive information
-        // Handle the error gracefully without exposing sensitive information
+        console.log(`Error retrieving data for deck "${selectedDeck}":`, error);
       }
     };
 
-    fetchData();
-  }, []);
+    if (selectedDeck) {
+      fetchData();
+    }
+  }, [selectedDeck]);
 
   useEffect(() => {
     // Select a random card when the deck changes
@@ -39,7 +40,7 @@ const RandomizeCard = () => {
   }, [deck]);
 
   const handleFlipCard = () => {
-    setIsFlipped(!isFlipped);
+    setIsFlipped((prevState) => !prevState);
   };
 
   if (deck.length === 0 || currentCardIndex === null) {

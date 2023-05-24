@@ -1,10 +1,25 @@
-import * as React from "react";
-import { Menu, Divider, Text } from "react-native-paper";
-import { IconButton } from "react-native-paper";
+import React, { useState, useEffect } from "react";
+import { Menu, Divider, Text, IconButton } from "react-native-paper";
 import { StyleSheet, View, Dimensions } from "react-native";
+import { getDeckFiles } from "../services/DeckLocalStorage";
 
-const DropdownMenu = ({ options }) => {
-  const [visible, setVisible] = React.useState(false);
+const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
+  const [visible, setVisible] = useState(false);
+  const [decks, setDecks] = useState([]);
+
+
+  useEffect(() => {
+    retrieveDeckNames();
+  }, [selectedDeck, decks]);
+  
+  const retrieveDeckNames = async () => {
+    try {
+      const directoryContent = await getDeckFiles();
+      setDecks(directoryContent.map((filename) => filename.replace(".json", "")));
+    } catch (error) {
+      console.log("Error retrieving decks:", error);
+    }
+  };
 
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
@@ -14,6 +29,11 @@ const DropdownMenu = ({ options }) => {
   const screenWidth = Dimensions.get('window').width;
   const containerMargin = screenWidth * 0.03;
   const menuButtonMarginTop = screenWidth * 0.02;
+
+  const handleDeckSelection = (deck) => {
+    onDeckSelection(deck);
+    closeMenu();
+  };
 
   return (
     <View style={[styles.container, { marginLeft: containerMargin }]}>
@@ -25,19 +45,19 @@ const DropdownMenu = ({ options }) => {
           y: anchorPosition.y,
         }}
       >
-        {options.map((option, index) => (
+        {decks.map((deck, index) => (
           <React.Fragment key={index}>
             <Menu.Item
-              onPress={option.onPress}
-              title={option.title}
+              onPress={() => handleDeckSelection(deck)}
+              title={deck}
               style={styles.menuItem}
             />
-            {index !== options.length - 1 && <Divider />}
+            {index !== decks.length - 1 && <Divider />}
           </React.Fragment>
         ))}
       </Menu>
       <View style={[styles.menuButton, { marginTop: menuButtonMarginTop }]}>
-        <Text style={styles.menuText}>Choose your Deck</Text>
+        <Text style={styles.menuText}>{selectedDeck?selectedDeck:"Choose your Deck"}</Text>
         <IconButton
           icon="menu"
           onPress={openMenu}
@@ -69,6 +89,14 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     marginLeft: 5,
+  },
+  selectedDeckText: {
+    marginLeft: 10,
+    color: "white",
+  },
+  selectedDeckText: {
+    marginLeft: 10,
+    color: "white",
   },
   menuItem: {
     flex: 1,
