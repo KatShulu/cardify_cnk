@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    backgroundColor: "#841584",
-    borderColor: "#fcfdfb",
+    backgroundColor: "#087E8A",
+    borderColor: "#F5F5F5",
     borderWidth: 2,
   },
   title: {
@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    color: "#fff"
+    color: "#F5F5F5"
   },
   text: {
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    color: "#fff"
+    color: "#F5F5F5"
   }
 });

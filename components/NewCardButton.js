@@ -1,51 +1,60 @@
 import * as React from "react";
-import { Button, IconButton } from "react-native-paper";
-import { StyleSheet } from "react-native";
-import { View } from "react-native-animatable";
+import { IconButton } from "react-native-paper";
+import { StyleSheet, View, Dimensions } from "react-native";
 
-const NewCardButton = ({ onPress }) => (
-  <View style={styles.contain}>
-     <IconButton
-      icon="check"
-      color="white"
-      size={40}
-      onPress={onPress}
-      style={styles.validate}
-    />
-    
-    <IconButton
-      icon="close"
-      color="white"
-      size={40}
-      onPress={onPress}
-      style={styles.cancel}
-    />
-  </View>
-);
+const NewCardButton = ({ onPress }) => {
+  const windowWidth = Dimensions.get('window').width;
+  const buttonSize = Math.min(60, windowWidth * 0.1);
+
+  return (
+    <View style={styles.container}>
+      <View style={[styles.buttonContainer, styles.bottomLeft]}>
+        <IconButton
+          icon="check"
+          iconColor="#F5F5F5"
+          size={buttonSize}
+          onPress={onPress}
+          style={styles.validate}
+        />
+      </View>
+      <View style={[styles.buttonContainer, styles.bottomRight]}>
+        <IconButton
+          icon="close"
+          iconColor="#F5F5F5"
+          size={buttonSize}
+          onPress={onPress}
+          style={styles.cancel}
+        />
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-  contain: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
+  container: {
+    position: "relative",
+    marginBottom: -40,
+  },
+  buttonContainer: {
+    position: "absolute",
     alignItems: "center",
+    justifyContent: "center",
+  },
+  bottomLeft: {
+    bottom: -35,
+    left: 0,
+  },
+  bottomRight: {
+    bottom: -35,
+    right: 0,
   },
   validate: {
-    backgroundColor: "#7AA95C",
-    width: 80,
-    height: 80,
+    backgroundColor: "#82C1A6",
     borderRadius: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 10,
   },
   cancel: {
-    width: 80,
-    height: 80,
     borderRadius: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#A7001E",
+    backgroundColor: "#FF5A60",
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { View, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { View, TouchableWithoutFeedback, StyleSheet, Dimensions } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
 
@@ -12,10 +12,13 @@ const FlashCard = ({ word, definition, isFlipped, handleFlipCard }) => {
     }
   }, [isFlipped]);
 
+  const windowWidth = Dimensions.get('window').width;
+  const cardWidth = Math.min(350, windowWidth * 0.8);
+
   return (
     <View style={styles.cardContainer}>
       <TouchableWithoutFeedback onPress={handleFlipCard}>
-        <Animatable.View ref={cardRef} style={styles.card}>
+        <Animatable.View ref={cardRef} style={[styles.card, { width: cardWidth }]}>
           <Card.Content style={styles.content}>
             {!isFlipped ? (
               <Title style={styles.text}>{word}</Title>
@@ -33,18 +36,18 @@ const styles = StyleSheet.create({
   cardContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: 'auto',
     marginBottom: 'auto',
   },
   card: {
-    width: 350,
-    height: 430,
+    height: 500,
     borderRadius: 8,
-    backgroundColor: '#AFA4CE',
+    backgroundColor: '#087E8A',
     elevation: 8,
+    borderWidth: 5,
+    borderColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: "#000",
   },
   content: {
     padding: 16,
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     textAlign: 'center',
-    color: '#fff',
+    color: '#F5F5F5',
   },
 });
 

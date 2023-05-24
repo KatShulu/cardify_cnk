@@ -144,7 +144,7 @@ function CreateDeckScreen() {
 
           <Button
             title="Save Card"
-            color="#841584"
+            color="#087E8A"
             accessibilityLabel="Button to save your card in your local storage button"
             onPress={saveCard}
             disabled={isSaveDisabled}

@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Divider, Text } from "react-native-paper";
-import { IconButton } from "react-native-paper";
-import { StyleSheet, View } from "react-native";
+import { Menu, Divider, Text, IconButton } from "react-native-paper";
+import { StyleSheet, View, Dimensions } from "react-native";
 import { getDeckFiles } from "../services/DeckLocalStorage";
 
 const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
   const [visible, setVisible] = useState(false);
   const [decks, setDecks] = useState([]);
 
+
   useEffect(() => {
     retrieveDeckNames();
-  }, [selectedDeck]); // Update decks state whenever selectedDeck changes
-
+  }, [selectedDeck]);
   const retrieveDeckNames = async () => {
     try {
       const directoryContent = await getDeckFiles();
@@ -24,28 +23,26 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
+  const anchorPosition = { x: 200, y: 160 }; // Coordonnées fixes pour l'ancre du menu
+
+  const screenWidth = Dimensions.get('window').width;
+  const containerMargin = screenWidth * 0.03;
+  const menuButtonMarginTop = screenWidth * 0.02;
+
   const handleDeckSelection = (deck) => {
     onDeckSelection(deck);
     closeMenu();
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { marginLeft: containerMargin }]}>
       <Menu
         visible={visible}
         onDismiss={closeMenu}
-        anchor={
-          <View style={styles.menuContainer}>
-            <IconButton
-              icon="menu"
-              onPress={openMenu}
-              color="white"
-              size={30}
-              style={styles.iconButton}
-            />
-            {selectedDeck && <Text style={styles.selectedDeckText}>{selectedDeck}</Text>}
-          </View>
-        }
+        anchor={{
+          x: anchorPosition.x,
+          y: anchorPosition.y,
+        }}
       >
         {decks.map((deck, index) => (
           <React.Fragment key={index}>
@@ -58,6 +55,16 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
           </React.Fragment>
         ))}
       </Menu>
+      <View style={[styles.menuButton, { marginTop: menuButtonMarginTop }]}>
+        <Text style={styles.menuText}>Choose your Deck</Text>
+        <IconButton
+          icon="menu"
+          onPress={openMenu}
+          color="white"
+          size={30}
+          style={styles.iconButton}
+        />
+      </View>
     </View>
   );
 };
@@ -66,15 +73,25 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     top: 0,
-    left: 0,
     zIndex: 999,
   },
-  menuContainer: {
+  menuButton: {
     flexDirection: "row",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#F5F5F5",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+  },
+  menuText: {
+    marginRight: 5,
   },
   iconButton: {
+    marginLeft: 5,
+  },
+  selectedDeckText: {
     marginLeft: 10,
+    color: "white",
   },
   selectedDeckText: {
     marginLeft: 10,
@@ -84,7 +101,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center",
     marginTop: 3,
-    marginRight: 5,
   },
 });
 
