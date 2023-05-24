@@ -30,13 +30,13 @@ function CreateDeckScreen() {
   };
 
   const saveCard = async () => {
-    // Sanitize the inputs
+    // Sanitize the inputs to avoid security issues like injections
     const sanitizedNotion = sanitizeInput(notion);
     const sanitizedDefinition = sanitizeInput(definition);
 
     // Check if both inputs are filled
     if (!sanitizedNotion || !sanitizedDefinition) {
-      // Handle case when either input is empty
+      // Handle case when one input is empty
       alert("Please fill in both Notion and Definition");
       return;
     }
@@ -48,7 +48,7 @@ function CreateDeckScreen() {
     try {
       setIsSaving(true);
 
-      // Save the card
+      // Save the card in the selected deck
       await saveNewCard(selectedDeck, {
         [sanitizedNotion]: sanitizedDefinition,
       });
@@ -67,6 +67,7 @@ function CreateDeckScreen() {
   };
 
   const createNewDeck = async () => {
+    // Can't save a card if a deck is not selected
     if (!deckName) {
       alert("Please enter a deck name");
       return;
@@ -96,7 +97,9 @@ function CreateDeckScreen() {
       console.log(`Retrieved data for deck "${selectedDeck}":`, deckData);
       // Do something with the retrieved data
     } catch (error) {
-      alert(`Error retrieving data for deck "${selectedDeck}". Please try again.`);
+      alert(
+        `Error retrieving data for deck "${selectedDeck}". Please try again.`
+      );
     }
   };
 
@@ -111,17 +114,18 @@ function CreateDeckScreen() {
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} // Adjust the offset if needed
+        // Adjusts the offset if needed
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} 
         enabled
       >
         <View>
+        <>
           <DropdownMenu
             selectedDeck={selectedDeck}
             onDeckSelection={handleDeckSelection}
           />
-
+        </>
           <Text>🎴 Now create your own Cards!</Text>
-
           <TextInput
             label="Notion"
             value={notion}
