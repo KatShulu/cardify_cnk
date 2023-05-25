@@ -14,6 +14,7 @@ import { saveNewCardInDeck, retrieveCardInDeck } from "../services/CardLocalStor
 import DropdownMenu from "../components/DropDownMenu";
 
 function CreateDeckScreen() {
+
   const [notion, setNotion] = useState("");
   const [definition, setDefinition] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -155,7 +156,7 @@ function CreateDeckScreen() {
           />
           <Button
             title="Create Deck"
-            color="#1f8ded"
+            color={global.AppTheme.primary}
             accessibilityLabel="Button to create a new deck in your local storage button"
             onPress={createNewDeck}
           />

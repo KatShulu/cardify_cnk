@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { Title } from "react-native-paper";
 
 export default function CollectionsScreen() {
+
   return (
     <View>
       <View style={styles.box}>

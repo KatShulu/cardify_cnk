@@ -1,16 +1,26 @@
 import React, {useState} from "react";
-import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import {
   Provider as PaperProvider,
   BottomNavigation,
   Appbar,
 } from "react-native-paper";
+import { useColorScheme } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import LearnScreen from "./screens/LearnScreen.js";
 import CreateDeckScreen from "./screens/CreateDeckScreen.js";
 import CollectionsScreen from "./screens/CollectionsScreen.js";
+import DarkTheme from "./themes/DarkTheme.js";
+import LightTheme from "./themes/LightTheme.js";
 
 export default function App() {
+  let colorScheme = useColorScheme();
+
+  if (colorScheme === 'dark') {
+    global.AppTheme = DarkTheme
+  } else {
+    global.AppTheme = LightTheme
+  }
   // Initializing the state for the current tab index
   const [index, setIndex] = useState(0);
   // Defining the routes for the Bottom Navigation Tabbar
@@ -27,7 +37,7 @@ export default function App() {
   });
   // Rendering the proper icon for each tab
   const renderIcon = ({ route, color }) => {
-    return <Icon name={route.icon} size={30} color={color} />;
+    return <Icon name={route.icon} size={30} color={global.AppTheme.secondaryContainer} />;
   };
   // Handling tab press and updating the current index state accordingly
   const handleTabPress = (newIndex) => {
@@ -45,7 +55,7 @@ export default function App() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Appbar.Header>
+        <Appbar.Header elevated = "true">
           <Appbar.Content title="Cardify" />
         </Appbar.Header>
         <BottomNavigation
@@ -58,6 +68,8 @@ export default function App() {
           accessibilityLabel="Navigation tabs"
           screenReaderOptions={screenReaderOptions}
           getAccessibilityLabel={accessibilityLabel}
+          barStyle={{ backgroundColor: global.AppTheme.backgroundColor }}
+
         />
       </NavigationContainer>
     </PaperProvider>
