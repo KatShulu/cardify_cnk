@@ -5,12 +5,10 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Dimensions,
+  FlatList,
 } from "react-native";
 import { Title } from "react-native-paper";
 import { getDeckFilesNames } from "../services/DeckLocalStorage";
-
-const windowWidth = Dimensions.get("window").width;
 
 export default function CollectionsScreen() {
   const [decks, setDecks] = useState([]);
@@ -29,40 +27,28 @@ export default function CollectionsScreen() {
     return filename.replace(".json", "");
   };
 
-  const renderDecks = () => {
-    const halfLength = Math.ceil(decks.length / 2);
-    const firstHalf = decks.slice(0, halfLength);
-    const secondHalf = decks.slice(halfLength);
-
-    return (
-      <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={styles.column}>
-            {firstHalf.map((deck, index) => (
-              <TouchableOpacity key={index}>
-                <View style={styles.box}>
-                  <Title style={styles.title}>{withoutExtension(deck)}</Title>
-                  <Text style={styles.text} numberOfLines={2}></Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View style={styles.column}>
-            {secondHalf.map((deck, index) => (
-              <TouchableOpacity key={index}>
-                <View style={styles.box}>
-                  <Title style={styles.title}>{withoutExtension(deck)}</Title>
-                  <Text style={styles.text} numberOfLines={2}></Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </ScrollView>
+  const renderDeckItem = ({ item }) => (
+    <TouchableOpacity>
+      <View style={styles.box}>
+        <Title style={styles.title}>{withoutExtension(item)}</Title>
+        <Text style={styles.text} numberOfLines={2}></Text>
       </View>
-    );
-  };
+    </TouchableOpacity>
+  );
 
-  return renderDecks();
+  return (
+    <View style={styles.container}>
+      <ScrollView>
+        <FlatList
+          data={decks}
+          renderItem={renderDeckItem}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={2}
+          columnWrapperStyle={styles.column}
+        />
+      </ScrollView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -86,7 +72,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    width: (windowWidth - 40) / 2, // Diviser la largeur de l'écran par 2 pour obtenir 2 colonnes
+    width: 180, 
     height: 200,
     marginBottom: 10,
     overflow: "hidden",

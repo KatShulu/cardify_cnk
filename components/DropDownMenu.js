@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, Divider, Text, IconButton } from "react-native-paper";
 import { StyleSheet, View, Dimensions } from "react-native";
-import { getDeckFilesNames } from "../services/DeckLocalStorage";
+import { createDeckFile, getDeckFilesNames } from "../services/DeckLocalStorage";
 
 // Creating a dropdown menu component to select a deck when creating a card
 const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
@@ -19,7 +19,7 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
   // This only triggers the effect when `selectedDeck` is changed
   useEffect(() => {
     retrieveDeckNames();
-  }, [selectedDeck]);
+  }, [selectedDeck, createDeckFile]);
 
   // Retrieves the Decks' Names to show as selectable options in the menu
   const retrieveDeckNames = async () => {
