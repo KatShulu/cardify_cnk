@@ -20,7 +20,7 @@ export default function LearnScreen() {
   const { selectedDeck, handleDeckSelection } = useSelectedDeck();
 
   return (
-    <View style={styles.container}>
+    <View>
       <DropdownMenu
         selectedDeck={selectedDeck}
         onDeckSelection={handleDeckSelection}
@@ -34,10 +34,3 @@ export default function LearnScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

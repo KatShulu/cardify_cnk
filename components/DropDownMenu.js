@@ -5,10 +5,8 @@ import { getDeckFilesNames } from "../services/DeckLocalStorage";
 
 // Creating a dropdown menu component to select a deck when creating a card
 const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
-  const anchorPosition = { x: 100, y: 160 };
   const screenWidth = Dimensions.get("window").width;
-  const containerMargin = screenWidth * 0.04;
-  const menuButtonMarginTop = screenWidth * 0.02;
+  const menuButtonMarginTop = screenWidth * 0.0;
 
   const [visible, setVisible] = useState(false);
   const [decks, setDecks] = useState([]);
@@ -25,7 +23,9 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
   const retrieveDeckNames = async () => {
     try {
       const directoryContent = await getDeckFilesNames();
-      setDecks(directoryContent.map((filename) => filename.replace(".json", "")));
+      setDecks(
+        directoryContent.map((filename) => filename.replace(".json", ""))
+      );
     } catch (error) {
       console.error("Error retrieving decks:", error);
     }
@@ -38,14 +38,21 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
   };
 
   return (
-    <View style={[styles.container, { marginLeft: containerMargin }]}>
+    <View style={[styles.menuButton, { marginTop: menuButtonMarginTop }]}>
+      <Text style={styles.menuText}>{selectedDeck || "Choose your Deck"}</Text>
       <Menu
         visible={visible}
         onDismiss={closeMenu}
-        anchor={{
-          x: anchorPosition.x,
-          y: anchorPosition.y,
-        }}
+        anchor={
+          <IconButton
+            icon="menu"
+            onPress={openMenu}
+            color="white"
+            size={30}
+            style={styles.iconButton}
+            accessibilityLabel="Open Menu"
+          />
+        }
       >
         {decks.map((deck, index) => (
           <React.Fragment key={index}>
@@ -58,27 +65,11 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
           </React.Fragment>
         ))}
       </Menu>
-      <View style={[styles.menuButton, { marginTop: menuButtonMarginTop }]}>
-        <Text style={styles.menuText}>{selectedDeck || "Choose your Deck"}</Text>
-        <IconButton
-          icon="menu"
-          onPress={openMenu}
-          color="white"
-          size={30}
-          style={styles.iconButton}
-          accessibilityLabel="Open Menu"
-        />
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    top: 0,
-    zIndex: 999,
-  },
   menuButton: {
     flexDirection: "row",
     alignItems: "center",
@@ -92,10 +83,6 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     marginLeft: 5,
-  },
-  selectedDeckText: {
-    marginLeft: 10,
-    color: "white",
   },
   menuItem: {
     flex: 1,
