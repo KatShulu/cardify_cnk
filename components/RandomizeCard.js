@@ -1,39 +1,43 @@
 // RandomizeCard.js
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import FlashCard from './FlashCard';
 import NewCardButton from './NewCardButton';
-import { retrieveData } from '../services/CardLocalStorage';
+import { retrieveCardInDeck } from '../services/CardLocalStorage';
 
 const RandomizeCard = ({ selectedDeck }) => {
   const [deck, setDeck] = useState([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Function to select a random card from the deck
   const selectRandomCard = () => {
     const randomIndex = Math.floor(Math.random() * deck.length);
     setCurrentCardIndex(randomIndex);
-    setIsFlipped(false); // Set the new card to the word side
+    setIsFlipped(false);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const deckData = await retrieveData(selectedDeck);
+        const deckData = await retrieveCardInDeck(selectedDeck);
         setDeck(deckData);
+        setIsLoading(false);
       } catch (error) {
+        setError(error);
+        setIsLoading(false);
         console.log(`Error retrieving data for deck "${selectedDeck}":`, error);
       }
     };
 
     if (selectedDeck) {
+      setIsLoading(true);
       fetchData();
     }
   }, [selectedDeck]);
 
   useEffect(() => {
-    // Select a random card when the deck changes
     if (deck.length > 0) {
       selectRandomCard();
     }
@@ -43,9 +47,25 @@ const RandomizeCard = ({ selectedDeck }) => {
     setIsFlipped((prevState) => !prevState);
   };
 
-  if (deck.length === 0 || currentCardIndex === null) {
-    // Handle case when the deck is empty or no current card index
-    return <View>{/* Display an appropriate message or loading state */}</View>;
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+  if (deck.length === 0){
+    return (
+      <View style={styles.errorContainer}>
+        <Text>Le deck sélectionné est vide.</Text>
+      </View>
+    );
+  }else if (error || currentCardIndex === null) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text>Error: Unable to load deck.</Text>
+      </View>
+    );
   }
 
   const currentCard = deck[currentCardIndex];
@@ -54,17 +74,28 @@ const RandomizeCard = ({ selectedDeck }) => {
 
   return (
     <View>
-      {/* Display the FlashCard component with the current card */}
       <FlashCard
         word={word}
         definition={definition}
         isFlipped={isFlipped}
         handleFlipCard={handleFlipCard}
       />
-      {/* Display the NewCardButton component for selecting a new random card */}
       <NewCardButton onPress={selectRandomCard} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default RandomizeCard;

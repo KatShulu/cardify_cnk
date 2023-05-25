@@ -6,7 +6,10 @@ const getDeckFilePath = (deckName) => {
   return `${deckFolderPath}${deckName}.json`;
 };
 
-// Create the decks directory if it doesn't exist
+/**
+ * Create the decks directory if it doesn't exist
+ * @throws {Error} If there's an error creating the directory.
+ */
 const createDeckDirectory = async () => {
   try {
     const directoryInfo = await FileSystem.getInfoAsync(deckFolderPath);
@@ -20,7 +23,11 @@ const createDeckDirectory = async () => {
   }
 };
 
-// Create an empty deck file if it doesn't exist
+/**
+ * Create an empty deck file if it doesn't exist
+ * @param {string} deckName - The name of the deck.
+ * @throws {Error} If there's an error creating the deck file.
+ */
 export const createDeckFile = async (deckName) => {
   const deckFilePath = getDeckFilePath(deckName);
   
@@ -37,9 +44,13 @@ export const createDeckFile = async (deckName) => {
 };
 
 // Call the createDeckDirectory function at the beginning to ensure the directory is created
+// We should ask the user if he's ok with us creating a folder and files
 createDeckDirectory();
 
-// Delete all decks
+/**
+ * Delete all decks
+ * @throws {Error} If there's an error deleting allk the decks files.
+ */
 export const deleteAllDecks = async () => {
     try {
       const directoryContent = await FileSystem.readDirectoryAsync(deckFolderPath);
@@ -55,7 +66,12 @@ export const deleteAllDecks = async () => {
     }
   };
   
-  // Delete a deck by name
+
+  /**
+ * Delete a deck by name
+ * @param {string} deckName - The name of the deck.
+ * @throws {Error} If there's an error deleting this deck file.
+ */
   export const deleteDeckByName = async (deckName) => {
     try {
       const deckFilePath = getDeckFilePath(deckName);
@@ -66,7 +82,13 @@ export const deleteAllDecks = async () => {
       throw error;
     }
   };
-export const getDeckFiles = async () => {
+
+  /**
+ * Retrieve the deck file names
+ * @throws {Error} If there's an error retreving the names.
+ */
+
+export const getDeckFilesNames = async () => {
     try {
       const directoryContent = await FileSystem.readDirectoryAsync(deckFolderPath);
       const deckFiles = directoryContent.filter((filename) => filename.endsWith("json"))
@@ -76,5 +98,3 @@ export const getDeckFiles = async () => {
         throw error;
     }
 }
-//deleteAllDecks()
-getDeckFiles()

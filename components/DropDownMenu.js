@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { Menu, Divider, Text, IconButton } from "react-native-paper";
 import { StyleSheet, View, Dimensions } from "react-native";
-import { getDeckFiles } from "../services/DeckLocalStorage";
+import { getDeckFilesNames } from "../services/DeckLocalStorage";
 
+// Creating a dropdown menu component to select a deck when creating a card
 const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
+  const anchorPosition = { x: 100, y: 160 };
+  const screenWidth = Dimensions.get("window").width;
+  const containerMargin = screenWidth * 0.04;
+  const menuButtonMarginTop = screenWidth * 0.02;
+
   const [visible, setVisible] = useState(false);
   const [decks, setDecks] = useState([]);
-
-
-  useEffect(() => {
-    retrieveDeckNames();
-  }, [selectedDeck, decks]);
-  
-  const retrieveDeckNames = async () => {
-    try {
-      const directoryContent = await getDeckFiles();
-      setDecks(directoryContent.map((filename) => filename.replace(".json", "")));
-    } catch (error) {
-      console.log("Error retrieving decks:", error);
-    }
-  };
 
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  const anchorPosition = { x: 200, y: 160 }; // Coordonnées fixes pour l'ancre du menu
+  // This only triggers the effect when `selectedDeck` is changed
+  useEffect(() => {
+    retrieveDeckNames();
+  }, [selectedDeck]);
 
-  const screenWidth = Dimensions.get('window').width;
-  const containerMargin = screenWidth * 0.03;
-  const menuButtonMarginTop = screenWidth * 0.02;
+  // Retrieves the Decks' Names to show as selectable options in the menu
+  const retrieveDeckNames = async () => {
+    try {
+      const directoryContent = await getDeckFilesNames();
+      setDecks(directoryContent.map((filename) => filename.replace(".json", "")));
+    } catch (error) {
+      console.error("Error retrieving decks:", error);
+    }
+  };
 
+  // When a deck is selected, it shows the deck's name and closes the menu
   const handleDeckSelection = (deck) => {
     onDeckSelection(deck);
     closeMenu();
@@ -57,13 +59,14 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
         ))}
       </Menu>
       <View style={[styles.menuButton, { marginTop: menuButtonMarginTop }]}>
-        <Text style={styles.menuText}>{selectedDeck?selectedDeck:"Choose your Deck"}</Text>
+        <Text style={styles.menuText}>{selectedDeck || "Choose your Deck"}</Text>
         <IconButton
           icon="menu"
           onPress={openMenu}
           color="white"
           size={30}
           style={styles.iconButton}
+          accessibilityLabel="Open Menu"
         />
       </View>
     </View>
@@ -89,10 +92,6 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     marginLeft: 5,
-  },
-  selectedDeckText: {
-    marginLeft: 10,
-    color: "white",
   },
   selectedDeckText: {
     marginLeft: 10,
