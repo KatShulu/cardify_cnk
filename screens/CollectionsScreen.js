@@ -38,7 +38,6 @@ export default function CollectionsScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
         <FlatList
           data={decks}
           renderItem={renderDeckItem}
@@ -46,7 +45,6 @@ export default function CollectionsScreen() {
           numColumns={2}
           columnWrapperStyle={styles.column}
         />
-      </ScrollView>
     </View>
   );
 }
