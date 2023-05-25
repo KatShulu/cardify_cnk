@@ -4,6 +4,7 @@ import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import FlashCard from './FlashCard';
 import NewCardButton from './NewCardButton';
 import { retrieveCardInDeck } from '../services/CardLocalStorage';
+import {incrementPositiveCount, incrementNegativeCount, getEvaluationData} from "../services/EvalLocalStorage"
 
 const RandomizeCard = ({ selectedDeck }) => {
   const [deck, setDeck] = useState([]);
@@ -47,6 +48,12 @@ const RandomizeCard = ({ selectedDeck }) => {
     setIsFlipped((prevState) => !prevState);
   };
 
+  //Show an other card an stock if the user clicked the "i know"/"idon't know"
+  const handleCardValidation = (isValidated) =>{
+    selectRandomCard()
+    const wordAndDeck = `${selectedDeck}/${word}`;
+    isValidated? incrementPositiveCount(wordAndDeck) : incrementNegativeCount(wordAndDeck)
+  }
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -80,7 +87,7 @@ const RandomizeCard = ({ selectedDeck }) => {
         isFlipped={isFlipped}
         handleFlipCard={handleFlipCard}
       />
-      <NewCardButton onPress={selectRandomCard} />
+      <NewCardButton onPress={handleCardValidation} />
     </View>
   );
 };
