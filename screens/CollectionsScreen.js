@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { Title } from "react-native-paper";
 import { getDeckFilesNames } from "../services/DeckLocalStorage";
+
+const windowWidth = Dimensions.get("window").width;
 
 export default function CollectionsScreen() {
   const [decks, setDecks] = useState([]);
@@ -27,26 +36,28 @@ export default function CollectionsScreen() {
 
     return (
       <View style={styles.container}>
-        <View style={styles.column}>
-          {firstHalf.map((deck, index) => (
-            <TouchableOpacity key={index}>
-              <View style={styles.box}>
-                <Title style={styles.title}>{withoutExtension(deck)}</Title>
-                <Text style={styles.text} numberOfLines={2}></Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <View style={styles.column}>
-          {secondHalf.map((deck, index) => (
-            <TouchableOpacity key={index}>
-              <View style={styles.box}>
-                <Title style={styles.title}>{withoutExtension(deck)}</Title>
-                <Text style={styles.text} numberOfLines={2}></Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.column}>
+            {firstHalf.map((deck, index) => (
+              <TouchableOpacity key={index}>
+                <View style={styles.box}>
+                  <Title style={styles.title}>{withoutExtension(deck)}</Title>
+                  <Text style={styles.text} numberOfLines={2}></Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View style={styles.column}>
+            {secondHalf.map((deck, index) => (
+              <TouchableOpacity key={index}>
+                <View style={styles.box}>
+                  <Title style={styles.title}>{withoutExtension(deck)}</Title>
+                  <Text style={styles.text} numberOfLines={2}></Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
       </View>
     );
   };
@@ -57,13 +68,14 @@ export default function CollectionsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
   },
   column: {
-    flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 10,
@@ -74,14 +86,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
+    width: (windowWidth - 40) / 2, // Diviser la largeur de l'écran par 2 pour obtenir 2 colonnes
+    height: 200,
+    marginBottom: 10,
+    overflow: "hidden",
     backgroundColor: "#087E8A",
     borderColor: "#3C3C3C",
     borderWidth: 2,
-    width: 180,
-    height: 180,
-    marginBottom: 10,
-    overflow: "hidden",
-    shadowColor: "black",
     elevation: 8,
   },
   title: {
