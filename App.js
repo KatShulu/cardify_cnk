@@ -11,7 +11,7 @@ import CreateDeckScreen from "./screens/CreateDeckScreen.js";
 import CollectionsScreen from "./screens/CollectionsScreen.js";
 
 export default function App() {
-  // Initializing state for the current tab index
+  // Initializing the state for the current tab index
   const [index, setIndex] = useState(0);
   // Defining the routes for the Bottom Navigation Tabbar
   const routes = [
@@ -25,24 +25,23 @@ export default function App() {
     CreateDeckScreen: CreateDeckScreen,
     CollectionsScreen: CollectionsScreen,
   });
-  // Rendering the icon for each tab
+  // Rendering the proper icon for each tab
   const renderIcon = ({ route, color }) => {
     return <Icon name={route.icon} size={30} color={color} />;
   };
-  // Handling tab press and updating the current index state
+  // Handling tab press and updating the current index state accordingly
   const handleTabPress = (newIndex) => {
     setIndex(newIndex);
   };
-  // Defining accessibility label for each tab
+  // Defining the accessibility label to be read by screen reader for each tab
   const accessibilityLabel = (route) => {
     return `Go to ${route.title}`;
   };
-  // Defining screen reader options
+  // Defining options for the screen reader
   const screenReaderOptions = {
     announceCurrentState: true,
     backgroundColor: "#F5F5F5",
   };
-  // Rendering the app with PaperProvider, NavigationContainer and BottomNavigation
   return (
     <PaperProvider>
       <NavigationContainer>
