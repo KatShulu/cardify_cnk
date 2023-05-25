@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, Divider, Text, IconButton } from "react-native-paper";
 import { StyleSheet, View, Dimensions } from "react-native";
-import { getDeckFiles } from "../services/DeckLocalStorage";
+import { getDeckFilesNames } from "../services/DeckLocalStorage";
 
 // Creating a dropdown menu component to select a deck when creating a card
 const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
@@ -24,7 +24,7 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
   // Retrieves the Decks' Names to show as selectable options in the menu
   const retrieveDeckNames = async () => {
     try {
-      const directoryContent = await getDeckFiles();
+      const directoryContent = await getDeckFilesNames();
       setDecks(directoryContent.map((filename) => filename.replace(".json", "")));
     } catch (error) {
       console.error("Error retrieving decks:", error);

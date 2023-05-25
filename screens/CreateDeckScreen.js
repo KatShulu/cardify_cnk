@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { createDeckFile } from "../services/DeckLocalStorage";
-import { saveNewCard, retrieveData } from "../services/CardLocalStorage";
+import { saveNewCardInDeck, retrieveCardInDeck } from "../services/CardLocalStorage";
 import DropdownMenu from "../components/DropDownMenu";
 
 function CreateDeckScreen() {
@@ -49,7 +49,7 @@ function CreateDeckScreen() {
       setIsSaving(true);
 
       // Save the card in the selected deck
-      await saveNewCard(selectedDeck, {
+      await saveNewCardInDeck(selectedDeck, {
         [sanitizedNotion]: sanitizedDefinition,
       });
 
@@ -93,7 +93,7 @@ function CreateDeckScreen() {
     }
 
     try {
-      const deckData = await retrieveData(selectedDeck);
+      const deckData = await retrieveCardInDeck(selectedDeck);
       console.log(`Retrieved data for deck "${selectedDeck}":`, deckData);
       // Do something with the retrieved data
     } catch (error) {

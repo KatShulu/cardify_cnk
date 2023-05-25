@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import FlashCard from './FlashCard';
 import NewCardButton from './NewCardButton';
-import { retrieveData } from '../services/CardLocalStorage';
+import { retrieveCardInDeck } from '../services/CardLocalStorage';
 
 const RandomizeCard = ({ selectedDeck }) => {
   const [deck, setDeck] = useState([]);
@@ -21,7 +21,7 @@ const RandomizeCard = ({ selectedDeck }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const deckData = await retrieveData(selectedDeck);
+        const deckData = await retrieveCardInDeck(selectedDeck);
         setDeck(deckData);
         setIsLoading(false);
       } catch (error) {
