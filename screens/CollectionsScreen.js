@@ -9,14 +9,13 @@ import {
 } from "react-native";
 import { IconButton, Title } from "react-native-paper";
 import { getDeckFilesNames } from "../services/DeckLocalStorage";
-import {retrieveCardInDeck} from "../services/CardLocalStorage";
+import { retrieveCardInDeck } from "../services/CardLocalStorage";
 
 export default function CollectionsScreen() {
   const [decks, setDecks] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState(null);
   const [selectedDeck, setSelectedDeck] = useState(null);
-
 
   useEffect(() => {
     // Récupérer les données des decks au montage du composant
@@ -29,15 +28,19 @@ export default function CollectionsScreen() {
   }, []);
 
   useEffect(() => {
-    const fetchCards = async () => {
-      if (selectedDeck) {
-        const données = await retrieveCardInDeck(selectedDeck);
-        console.log(retrieveCardInDeck())
-        setCards(données);
+    const fetchData = async () => {
+      try {
+        const noJson = withoutExtension(selectedDeck) 
+        const deckData = await retrieveCardInDeck(noJson);
+        setCards(deckData);
+        console.log(deckData)
+      } catch (error) {
+        console.log(`Error retrieving data for deck "${noJson}":`, error);
       }
     };
-  
-    fetchCards();
+    if (selectedDeck) {
+      fetchData();
+    }
   }, [selectedDeck]);
 
   const withoutExtension = (filename) => {
@@ -61,11 +64,15 @@ export default function CollectionsScreen() {
       </View>
     </TouchableOpacity>
   );
-
-  const renderCardsItem = () => (
-      <View style={styles.box}>
-        <Text style={styles.text} numberOfLines={2}></Text>
-      </View>
+   
+  const renderCardsItem = ({ item }) => (
+    <View style={styles.box}>
+      {Object.entries(item).map(([key, value]) => (
+        <Text key={key} style={styles.text} numberOfLines={2}>
+          {key} : {value}
+        </Text>
+      ))}
+    </View>
   );
 
   return (
@@ -77,7 +84,7 @@ export default function CollectionsScreen() {
         numColumns={2}
         columnWrapperStyle={styles.column}
       />
-      <Modal visible={isModalVisible} onRequestClose={closeModal} >
+      <Modal visible={isModalVisible} onRequestClose={closeModal}>
         <View style={styles.modalContainer}>
           <IconButton
             icon="close"
@@ -90,10 +97,8 @@ export default function CollectionsScreen() {
           <FlatList
             data={cards}
             renderItem={renderCardsItem}
-            keyExtractor={(index) => index.toString()}
             numColumns={1}
           />
-          <Text style={styles.list}>"Bonjour"</Text>
         </View>
       </Modal>
     </View>
