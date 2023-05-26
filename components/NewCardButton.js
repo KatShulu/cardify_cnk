@@ -9,7 +9,6 @@ const NewCardButton = ({ onPress }) => {
   return (
     <View style={styles.container}>
       {/* Yes button */}
-
       <View style={[styles.buttonContainer, styles.bottomLeft]}>
         <IconButton
           icon="check"

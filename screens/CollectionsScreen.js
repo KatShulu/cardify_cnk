@@ -10,6 +10,7 @@ import {
 import { IconButton, Title } from "react-native-paper";
 import { getDeckFilesNames } from "../services/DeckLocalStorage";
 import { retrieveCardInDeck } from "../services/CardLocalStorage";
+import NewCardButton from "../components/NewCardButton";
 
 export default function CollectionsScreen() {
   const [decks, setDecks] = useState([]);
@@ -30,10 +31,10 @@ export default function CollectionsScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const noJson = withoutExtension(selectedDeck) 
+        const noJson = withoutExtension(selectedDeck);
         const deckData = await retrieveCardInDeck(noJson);
         setCards(deckData);
-        console.log(deckData)
+        console.log(deckData);
       } catch (error) {
         console.log(`Error retrieving data for deck "${noJson}":`, error);
       }
@@ -64,14 +65,41 @@ export default function CollectionsScreen() {
       </View>
     </TouchableOpacity>
   );
-   
+
   const renderCardsItem = ({ item }) => (
-    <View style={styles.box}>
-      {Object.entries(item).map(([key, value]) => (
-        <Text key={key} style={styles.text} numberOfLines={2}>
-          {key} : {value}
-        </Text>
-      ))}
+    <View style={styles.cardContainer}>
+      <View style={styles.boxCard}>
+        <View style={styles.textContainer}>
+          {Object.entries(item).map(([key, value]) => (
+            <Text key={key} style={styles.text}>
+              <Text style={styles.keyText}>{key} : </Text>
+              <Text style={styles.valueText}>{"\n" + value}</Text>
+            </Text>
+          ))}
+        </View>
+      </View>
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
+          <IconButton
+            icon="lead-pencil"
+            iconColor="#F5F5F5"
+            accessibilityLabel="Update"
+            size={25}
+            onPress={() => console.log("Update")}
+            style={styles.validate}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <IconButton
+            icon="trash-can-outline"
+            iconColor="#F5F5F5"
+            accessibilityLabel="Delete"
+            size={25}
+            onPress={() => console.log("Delete")}
+            style={styles.Invalidate}
+          />
+        </View>
+      </View>
     </View>
   );
 
@@ -90,15 +118,11 @@ export default function CollectionsScreen() {
             icon="close"
             iconColor="#000"
             size={30}
-            accessibilityLabel="Delete"
+            accessibilityLabel="Close"
             style={styles.deleteButton}
             onPress={closeModal}
           ></IconButton>
-          <FlatList
-            data={cards}
-            renderItem={renderCardsItem}
-            numColumns={1}
-          />
+          <FlatList data={cards} renderItem={renderCardsItem} numColumns={1} />
         </View>
       </Modal>
     </View>
@@ -145,28 +169,40 @@ const styles = StyleSheet.create({
   text: {
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
     color: "#F5F5F5",
     textAlign: "center",
   },
   modalContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "lightgrey",
+    paddingTop: 70,
   },
-  list: {
+  cardContainer:{
+    flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    color: "#000",
-    textAlign: "center",
+    alignContent: "center",
+  },
+  buttonsContainer: {
+    marginTop: 40,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  buttonContainer: {
+    marginLeft: 5,
   },
   deleteButton: {
     position: "absolute",
     top: 10,
     right: 10,
+  },
+  boxCard: {
+    backgroundColor: "#087E8A",
+    marginTop: 40,
+    width: "70%",
+    height: "auto",
+  },
+  keyText: {
+    fontWeight: "bold",
   },
 });
