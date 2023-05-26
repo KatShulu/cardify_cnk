@@ -32,6 +32,7 @@ export default function CollectionsScreen() {
     const fetchCards = async () => {
       if (selectedDeck) {
         const données = await retrieveCardInDeck(selectedDeck);
+        console.log(retrieveCardInDeck())
         setCards(données);
       }
     };
@@ -61,7 +62,7 @@ export default function CollectionsScreen() {
     </TouchableOpacity>
   );
 
-  const renderCardsItem = ({ item }) => (
+  const renderCardsItem = () => (
       <View style={styles.box}>
         <Text style={styles.text} numberOfLines={2}></Text>
       </View>
