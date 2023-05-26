@@ -10,6 +10,7 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { getDeckFilesNames } from "../services/DeckLocalStorage";
 import { getEvaluationDataForDeck } from "../services/EvalLocalStorage";
+import DeckCompletion from "../components/DeckCompletion";
 
 export default function Profile() {
   const sizeIcon = 30;
@@ -29,26 +30,26 @@ export default function Profile() {
     try {
       const deckFiles = await getDeckFilesNames();
       const progress = {};
-  
+
       for (const deckFile of deckFiles) {
-        
         const deckName = deckFile.replace(".json", "");
         const deckData = await getEvaluationDataForDeck(deckName);
-        
+
         const totalCards = Object.keys(deckData).length;
-        const validatedCards = Object.values(deckData).filter((card) => card.positive >= 1).length;
+        const validatedCards = Object.values(deckData).filter(
+          (card) => card.positive >= 1
+        ).length;
+        const completion = `${validatedCards}/${totalCards}`;
         const percentage = totalCards > 0 ? (validatedCards / totalCards) * 100 : 0;
-        progress[deckName] = percentage.toFixed(2);
-        console.log(deckData)
+        progress[deckName] = { completion, percentage: percentage.toFixed(2) };
       }
-  
+
       setDeckProgress(progress);
     } catch (error) {
       console.log("Error fetching deck progress:", error);
     }
   };
-  
-  
+
   useEffect(() => {
     fetchDeckProgress();
   }, []);
@@ -66,7 +67,7 @@ export default function Profile() {
           />
         </View>
       </View>
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         <TouchableOpacity
           style={styles.profileBoxShadow}
           onPress={toggleStatistics}
@@ -83,16 +84,13 @@ export default function Profile() {
 
         {statisticsVisible && (
           <View style={styles.dropdownContent}>
-            {Object.entries(deckProgress).map(([deckName, percentage]) => (
-              <View key={deckName}>
-                <Text>{deckName}</Text>
-                <View style={styles.progressContainer}>
-                  <View
-                    style={[styles.progressBar, { width: `${percentage}%` }]}
-                  />
-                </View>
-                <Text>{`${percentage}%`}</Text>
-              </View>
+            {Object.entries(deckProgress).map(([deckName, progress]) => (
+              <DeckCompletion
+                key={deckName}
+                deckName={deckName}
+                completion={progress.completion}
+                percentage={progress.percentage}
+              />
             ))}
           </View>
         )}
@@ -104,11 +102,7 @@ export default function Profile() {
             <View style={styles["ml-15"]}>
               <Text style={styles.cardHeader}>Profile settings</Text>
             </View>
-            <Icon
-              style={styles.icons}
-              size={sizeIcon}
-              name="cog"
-            />
+            <Icon style={styles.icons} size={sizeIcon} name="cog" />
           </View>
           {profileSettingsVisible && (
             <View style={styles.dropdownContent}>
@@ -129,7 +123,7 @@ const styles = StyleSheet.create({
   cardIn: {
     fontSize: 20,
     paddingVertical: 10,
-    padding: 20,
+    paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -140,16 +134,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cardHeader: {
-    fontSize: 16,
+    fontSize: 25,
     fontWeight: "bold",
+    color: "#333",
   },
   profileText: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
+    color: "#333",
   },
   profileBox: {
     margin: 15,
-    elevation: 4,
+    elevation: 9,
     paddingHorizontal: 15,
     paddingVertical: 10,
     backgroundColor: "white",
@@ -166,8 +162,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: "white",
     borderRadius: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "lightgray",
+    borderBottomWidth: 3,
+    borderBottomColor: "lightblue",
   },
   image: {
     height: 80,
@@ -176,20 +172,19 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   dropdownContent: {
-    backgroundColor: "lightgray",
-    padding: 10,
-    marginTop: 10,
+    padding: 15,
+    margin: 10,
+    backgroundColor: "white",
+    borderRadius: 10,
+    elevation: 2,
+    shadowColor: "black",
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 2,
+    },
   },
-  progressContainer: {
-    height: 10,
-    width: "100%",
-    backgroundColor: "lightgray",
-    borderRadius: 5,
-    marginTop: 5,
-  },
-  progressBar: {
-    height: "100%",
-    backgroundColor: "green",
-    borderRadius: 5,
+  scrollContent: {
+    paddingBottom: 20,
   },
 });
