@@ -10,6 +10,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import LearnScreen from "./screens/LearnScreen.js";
 import CreateDeckScreen from "./screens/CreateDeckScreen.js";
 import CollectionsScreen from "./screens/CollectionsScreen.js";
+import ProfileScreen from "./screens/ProfileScreen.js"
 import DarkTheme from "./themes/DarkTheme.js";
 import LightTheme from "./themes/LightTheme.js";
 
@@ -28,12 +29,14 @@ export default function App() {
     { key: "LearnScreen", title: "Learn", icon: "card-bulleted" },
     { key: "CreateDeckScreen", title: "Create", icon: "card-plus"},
     { key: "CollectionsScreen", title: "Collections", icon: "cards"},
+    { key: "ProfilScreen", title: "Profile", icon: "account-cowboy-hat"},
   ];
   // Mapping the screens to their respective keys in the Bottom Navigation Tabbar
   const renderScene = BottomNavigation.SceneMap({
     LearnScreen: LearnScreen,
     CreateDeckScreen: CreateDeckScreen,
     CollectionsScreen: CollectionsScreen,
+    ProfilScreen : ProfilScreen,
   });
   // Rendering the proper icon for each tab
   const renderIcon = ({ route, color }) => {
