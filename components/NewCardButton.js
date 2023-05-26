@@ -16,7 +16,7 @@ const NewCardButton = ({ onPress }) => {
           iconColor="#F5F5F5"
           accessibilityLabel="Validate"
           size={buttonSize}
-          onPress={onPress}
+          onPress={()=>onPress(true)}
           style={styles.validate}
         />
       </View>
@@ -28,7 +28,7 @@ const NewCardButton = ({ onPress }) => {
           iconColor="#F5F5F5"
           accessibilityLabel="Invalidate"
           size={buttonSize}
-          onPress={onPress}
+          onPress={()=>onPress(false)}
           style={styles.Invalidate}
         />
       </View>
