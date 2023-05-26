@@ -4,9 +4,12 @@ import { StyleSheet, View, Dimensions } from "react-native";
 import { createDeckFile, getDeckFilesNames } from "../services/DeckLocalStorage";
 
 // Creating a dropdown menu component to select a deck when creating a card
-const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
-  const screenWidth = Dimensions.get("window").width;
-  const menuButtonMarginTop = screenWidth * 0.0;
+const DropdownMenu = ({ selectedDeck, onDeckSelection, isAbsolute  }) => {
+  //to delete if the layout is good -> const screenWidth = Dimensions.get("window").width;
+  
+  //If on learn screen absolute else flex
+  const menuContainerStyle = isAbsolute ? styles.container : null;
+  const menuItemStyle = isAbsolute ? styles.absoluteMenuItem : styles.flexMenuItem;
 
   const [visible, setVisible] = useState(false);
   const [decks, setDecks] = useState([]);
@@ -37,39 +40,46 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection }) => {
     closeMenu();
   };
 
+
   return (
-    <View style={[styles.menuButton, { marginTop: menuButtonMarginTop }]}>
-      <Text style={styles.menuText}>{selectedDeck || "Choose your Deck"}</Text>
-      <Menu
-        visible={visible}
-        onDismiss={closeMenu}
-        anchor={
-          <IconButton
-            icon="menu"
-            onPress={openMenu}
-            color="white"
-            size={30}
-            style={styles.iconButton}
-            accessibilityLabel="Open Menu"
-          />
-        }
-      >
-        {decks.map((deck, index) => (
-          <React.Fragment key={index}>
-            <Menu.Item
-              onPress={() => handleDeckSelection(deck)}
-              title={deck}
-              style={styles.menuItem}
+    <View style={menuContainerStyle}>
+      <View style={[styles.menuButton]}>
+        <Text style={styles.menuText}>{selectedDeck || "Choose your Deck"}</Text>
+        <Menu
+          visible={visible}
+          onDismiss={closeMenu}
+          anchor={
+            <IconButton
+              icon="menu"
+              onPress={openMenu}
+              color="white"
+              size={30}
+              style={styles.iconButton}
+              accessibilityLabel="Open Menu"
             />
-            {index !== decks.length - 1 && <Divider />}
-          </React.Fragment>
-        ))}
-      </Menu>
+          }
+        >
+          {decks.map((deck, index) => (
+            <View key={index} style={menuItemStyle}>
+              <Menu.Item
+                onPress={() => handleDeckSelection(deck)}
+                title={deck}
+              />
+              {index !== decks.length - 1 && <Divider />}
+            </View>
+          ))}
+        </Menu>
+      </View>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    top: 0,
+    zIndex: 999,
+    marginTop:10,
+  },
   menuButton: {
     flexDirection: "row",
     alignItems: "center",
@@ -85,10 +95,9 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   menuItem: {
-    flex: 1,
-    alignContent: "center",
     marginTop: 3,
   },
 });
+
 
 export default DropdownMenu;

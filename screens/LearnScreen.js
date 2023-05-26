@@ -24,6 +24,7 @@ export default function LearnScreen() {
       <DropdownMenu
         selectedDeck={selectedDeck}
         onDeckSelection={handleDeckSelection}
+        isAbsolute={true}
       />
       {selectedDeck ? (
         <RandomizeCard selectedDeck={selectedDeck} />
