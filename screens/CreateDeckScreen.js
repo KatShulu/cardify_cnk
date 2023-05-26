@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
   Button,
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Platform,
 } from "react-native";
-import { TextInput } from "react-native-paper";
+import { TextInput, Title } from "react-native-paper";
 import { createDeckFile } from "../services/DeckLocalStorage";
-import { saveNewCardInDeck, retrieveCardInDeck } from "../services/CardLocalStorage";
+import {
+  saveNewCardInDeck,
+  retrieveCardInDeck,
+} from "../services/CardLocalStorage";
 import DropdownMenu from "../components/DropDownMenu";
 
 function CreateDeckScreen() {
@@ -116,17 +118,11 @@ function CreateDeckScreen() {
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : null}
         // Adjusts the offset if needed
-        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} 
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
         enabled
       >
         <View>
-        <>
-          <DropdownMenu
-            selectedDeck={selectedDeck}
-            onDeckSelection={handleDeckSelection}
-          />
-        </>
-          <Text>🎴 Now create your own Cards!</Text>
+          <Title>Now create your own Cards!</Title>
           <TextInput
             label="Notion"
             value={notion}
@@ -136,23 +132,28 @@ function CreateDeckScreen() {
           <TextInput
             label="Definition"
             value={definition}
-            placeholder="Enter what you would like to learn and remember"
+            placeholder="Enter what you would like to learn and remember about this notion"
             onChangeText={(newText) => setDefinition(newText)}
             multiline={true}
           />
-          <TextInput
-            label="Deck Name"
-            value={deckName}
-            placeholder="Enter the name of the deck"
-            onChangeText={(newText) => setDeckName(newText)}
+          <DropdownMenu
+            selectedDeck={selectedDeck}
+            onDeckSelection={handleDeckSelection}
           />
-
           <Button
             title="Save Card"
             color="#087E8A"
             accessibilityLabel="Button to save your card in your local storage button"
             onPress={saveCard}
             disabled={isSaveDisabled}
+          />
+
+          <Title>Create a new Deck here :</Title>
+          <TextInput
+            label="Deck Name"
+            value={deckName}
+            placeholder="Enter the name of the deck"
+            onChangeText={(newText) => setDeckName(newText)}
           />
           <Button
             title="Create Deck"
