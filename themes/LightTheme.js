@@ -1,5 +1,5 @@
 export default LightTheme = {
-  primary: "rgb(78, 216, 233)",
+  primary: "rgb(11, 175, 193)",
   onPrimary: "rgb(0, 54, 60)",
   primaryContainer: "rgb(0, 79, 87)",
   onPrimaryContainer: "rgb(146, 241, 255)",
@@ -17,8 +17,8 @@ export default LightTheme = {
   onErrorContainer: "rgb(151, 240, 255)",
   background: "rgb(79, 216, 235)",
   onBackground: "rgb(0, 54, 61)",
-  surface: "rgb(25, 28, 29)",
-  onSurface: "rgb(225, 227, 227)",
+  surface: "rgb(225, 227, 227)",
+  onSurface: "rgb(25, 28, 29)",
   surfaceVariant: "rgb(63, 72, 74)",
   onSurfaceVariant: "rgb(191, 200, 202)",
   outline: "rgb(137, 146, 148)",

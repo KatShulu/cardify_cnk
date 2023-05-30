@@ -1,5 +1,5 @@
 export default DarkTheme = {
-  primary: "rgb(0, 105, 115)",
+  primary: "rgb(11, 175, 193)",
   onPrimary: "rgb(255, 255, 255)",
   primaryContainer: "rgb(146, 241, 255)",
   onPrimaryContainer: "rgb(0, 31, 35)",
@@ -17,7 +17,7 @@ export default DarkTheme = {
   onErrorContainer: "rgb(65, 0, 7)",
   background: "rgb(0, 0, 0)",
   onBackground: "rgb(255, 255, 255)",
-  surface: "rgb(25, 28, 29)",
+  surface: "rgb(25, 28, 29)", 
   onSurface: "rgb(239, 241, 241)",
   surfaceVariant: "rgb(46, 49, 50)",
   onSurfaceVariant: "rgb(63, 72, 74)",

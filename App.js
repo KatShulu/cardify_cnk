@@ -29,18 +29,18 @@ export default function App() {
     { key: "LearnScreen", title: "Learn", icon: "card-bulleted" },
     { key: "CreateDeckScreen", title: "Create", icon: "card-plus"},
     { key: "CollectionsScreen", title: "Collections", icon: "cards"},
-    { key: "ProfilScreen", title: "Profile", icon: "account-cowboy-hat"},
+    { key: "ProfileScreen", title: "Profile", icon: "account-cowboy-hat"},
   ];
   // Mapping the screens to their respective keys in the Bottom Navigation Tabbar
   const renderScene = BottomNavigation.SceneMap({
     LearnScreen: LearnScreen,
     CreateDeckScreen: CreateDeckScreen,
     CollectionsScreen: CollectionsScreen,
-    ProfilScreen : ProfilScreen,
+    ProfileScreen : ProfileScreen,
   });
   // Rendering the proper icon for each tab
   const renderIcon = ({ route, color }) => {
-    return <Icon name={route.icon} size={30} color={global.AppTheme.secondaryContainer} />;
+    return <Icon name={route.icon} size={30} color={global.AppTheme.onSurface} />;
   };
   // Handling tab press and updating the current index state accordingly
   const handleTabPress = (newIndex) => {
