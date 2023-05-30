@@ -120,7 +120,7 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    
   },
   cardIn: {
     fontSize: 20,
@@ -139,19 +139,18 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     color: "#333",
+    
   },
   profileText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#333",
+    color: "white",
   },
   profileBox: {
     margin: 15,
     elevation: 9,
     paddingHorizontal: 15,
     paddingVertical: 10,
-    backgroundColor: "white",
-    shadowColor: "black",
     shadowOpacity: 0.5,
     shadowRadius: 1,
     shadowOffset: {
@@ -162,10 +161,10 @@ const styles = StyleSheet.create({
   profileBoxShadow: {
     paddingVertical: 10,
     paddingHorizontal: 10,
-    backgroundColor: "#EBFDFF",
+    backgroundColor: "#087E8A",
     borderRadius: 10,
     borderBottomWidth: 3,
-    borderBottomColor: "lightblue",
+    borderBottomColor: "white",
   },
   image: {
     height: 80,

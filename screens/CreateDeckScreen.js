@@ -6,13 +6,10 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Platform,
+  ScrollView,
+  StyleSheet,
 } from "react-native";
 import { MD3LightTheme, MD3DarkTheme, TextInput, Title } from "react-native-paper";
-import { createDeckFile } from "../services/DeckLocalStorage";
-import {
-  saveNewCardInDeck,
-  retrieveCardInDeck,
-} from "../services/CardLocalStorage";
 import DropdownMenu from "../components/DropDownMenu";
 
 function CreateDeckScreen() {
@@ -142,60 +139,82 @@ function CreateDeckScreen() {
         keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
         enabled
       >
-        <View>
-          <Title>Now create your own Cards!</Title>
-          <DropdownMenu
-            selectedDeck={selectedDeck}
-            onDeckSelection={handleDeckSelection}
-          />
-          <TextInput
-            label="Notion"
-            value={notion}
-            theme={theme}
-            placeholder="Enter your word or notion here"
-            onChangeText={(newText) => setNotion(newText)}
-          />
-          <TextInput
-            label="Definition"
-            value={definition}
-            theme={theme}
-            placeholder="Enter what you would like to learn and remember about this notion"
-            onChangeText={(newText) => setDefinition(newText)}
-            multiline={true}
-          />
+        <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.card}>
 
-          <Button
-            title="Save Card"
-            color="#087E8A"
-            accessibilityLabel="Button to save your card in your local storage button"
-            onPress={saveCard}
-            disabled={isSaveDisabled}
-          />
+          <Title style={styles.title}>Now create your own Cards!</Title>
+            <DropdownMenu
+              selectedDeck={selectedDeck}
+              onDeckSelection={handleDeckSelection}
+            />
+            <View>
+              <TextInput
+                label="Notion"
+                value={notion}
+                placeholder="Enter your word or notion here"
+                onChangeText={(newText) => setNotion(newText)}
+              />
+              <TextInput
+                label="Definition"
+                value={definition}
+                placeholder="Enter what you would like to learn and remember about this notion"
+                onChangeText={(newText) => setDefinition(newText)}
+                multiline={true}
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button
+                title="Save Card"
+                color="#087E8A"
+                accessibilityLabel="Button to save your card in your local storage button"
+                onPress={saveCard}
+                disabled={isSaveDisabled}
+              />
+            </View>
+          </View>
+          <View style={styles.card}>
+            <Title style={styles.title}>Create a new Deck here:</Title>
+            <TextInput
+              label="Deck Name"
+              value={deckName}
+              placeholder="Enter the name of the deck"
+              onChangeText={(newText) => setDeckName(newText)}
+            />
 
-          <Title>Create a new Deck here :</Title>
-          <TextInput
-            label="Deck Name"
-            value={deckName}
-            theme={theme}
-            placeholder="Enter the name of the deck"
-            onChangeText={(newText) => setDeckName(newText)}
-          />
-          <Button
-            title="Create Deck"
-            color="#087E8A"
-            accessibilityLabel="Button to create a new deck in your local storage button"
-            onPress={createNewDeck}
-          />
-          <Button
-            title="Retrieve Data"
-            color="#1f8ded"
-            accessibilityLabel="Button to retrieve data for the selected deck"
-            onPress={handleRetrieveData}
-          />
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Create Deck"
+              color="#087E8A"
+              accessibilityLabel="Button to create a new deck in your local storage button"
+              onPress={createNewDeck}
+            />
+          </View>
         </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  card: {
+    backgroundColor: "lightgrey",
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 16,
+  },
+  buttonContainer: {
+    marginBottom: 16,
+  },
+});
 
 export default CreateDeckScreen;
