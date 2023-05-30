@@ -82,7 +82,7 @@ export default function CollectionsScreen() {
         <View style={styles.buttonContainer}>
           <IconButton
             icon="lead-pencil"
-            iconColor="#F5F5F5"
+            iconColor="#000"
             accessibilityLabel="Update"
             size={25}
             onPress={() => console.log("Update")}
@@ -92,7 +92,7 @@ export default function CollectionsScreen() {
         <View style={styles.buttonContainer}>
           <IconButton
             icon="trash-can-outline"
-            iconColor="#F5F5F5"
+            iconColor="#000"
             accessibilityLabel="Delete"
             size={25}
             onPress={() => console.log("Delete")}
@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     width: "70%",
     height: "auto",
+    borderRadius: 8,
   },
   keyText: {
     fontWeight: "bold",

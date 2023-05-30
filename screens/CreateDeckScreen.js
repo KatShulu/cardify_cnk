@@ -123,6 +123,10 @@ function CreateDeckScreen() {
       >
         <View>
           <Title>Now create your own Cards!</Title>
+          <DropdownMenu
+            selectedDeck={selectedDeck}
+            onDeckSelection={handleDeckSelection}
+          />
           <TextInput
             label="Notion"
             value={notion}
@@ -136,10 +140,7 @@ function CreateDeckScreen() {
             onChangeText={(newText) => setDefinition(newText)}
             multiline={true}
           />
-          <DropdownMenu
-            selectedDeck={selectedDeck}
-            onDeckSelection={handleDeckSelection}
-          />
+
           <Button
             title="Save Card"
             color="#087E8A"
