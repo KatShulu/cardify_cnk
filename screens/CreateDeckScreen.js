@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from "react-native";
-import { TextInput, Title } from "react-native-paper";
+import { MD3LightTheme, MD3DarkTheme, TextInput, Title } from "react-native-paper";
 import { createDeckFile } from "../services/DeckLocalStorage";
 import {
   saveNewCardInDeck,
@@ -22,6 +22,26 @@ function CreateDeckScreen() {
   const [isSaving, setIsSaving] = useState(false);
   const [deckName, setDeckName] = useState("");
   const [selectedDeck, setSelectedDeck] = useState(null); // State to store the selected deck
+
+  // Creates a local variable theme to adapt the inputs colors to the app theme
+  const theme = {
+    ...MD3LightTheme,
+    roundness: 2,
+    colors: {
+      ...MD3LightTheme.colors,
+      primary: '#3498db',
+      secondary: '#f1c40f',
+      tertiary: '#a1b2c3',
+    },
+    ...MD3DarkTheme,
+    roundness: 2,
+    colors: {
+      ...MD3DarkTheme.colors,
+      primary: '#3498db',
+      secondary: '#f1c40f',
+      tertiary: '#a1b2c3',
+    },
+  };
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -116,6 +136,7 @@ function CreateDeckScreen() {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
+
         behavior={Platform.OS === "ios" ? "padding" : null}
         // Adjusts the offset if needed
         keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
@@ -130,12 +151,14 @@ function CreateDeckScreen() {
           <TextInput
             label="Notion"
             value={notion}
+            theme={theme}
             placeholder="Enter your word or notion here"
             onChangeText={(newText) => setNotion(newText)}
           />
           <TextInput
             label="Definition"
             value={definition}
+            theme={theme}
             placeholder="Enter what you would like to learn and remember about this notion"
             onChangeText={(newText) => setDefinition(newText)}
             multiline={true}
@@ -153,12 +176,13 @@ function CreateDeckScreen() {
           <TextInput
             label="Deck Name"
             value={deckName}
+            theme={theme}
             placeholder="Enter the name of the deck"
             onChangeText={(newText) => setDeckName(newText)}
           />
           <Button
             title="Create Deck"
-            color={global.AppTheme.primary}
+            color="#087E8A"
             accessibilityLabel="Button to create a new deck in your local storage button"
             onPress={createNewDeck}
           />
