@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Menu, Divider, Text, IconButton } from "react-native-paper";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View} from "react-native";
 import { createDeckFile, getDeckFilesNames } from "../services/DeckLocalStorage";
 
 // Creating a dropdown menu component to select a deck when creating a card
@@ -43,7 +43,7 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection, isAbsolute  }) => {
 
   return (
     <View style={menuContainerStyle}>
-      <View style={[styles.menuButton]}>
+      <View style={[styles.menuButton, {borderColor : global.AppTheme.onMenuBackground}]}>
         <Text style={styles.menuText}>{selectedDeck || "Choose your Deck"}</Text>
         <Menu
           visible={visible}
@@ -52,7 +52,7 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection, isAbsolute  }) => {
             <IconButton
               icon="menu"
               onPress={openMenu}
-              color="white"
+              color={global.AppTheme.onMenuBackground}
               size={30}
               style={styles.iconButton}
               accessibilityLabel="Open Menu"
@@ -77,13 +77,12 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     top: 0,
-    marginTop:10,
+    marginTop:20,
   },
   menuButton: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#F5F5F5",
     borderRadius: 5,
     paddingHorizontal: 10,
   },

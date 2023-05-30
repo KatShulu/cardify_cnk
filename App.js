@@ -38,8 +38,8 @@ export default function App() {
     ProfileScreen : ProfileScreen,
   });
 
-  const renderIcon = ({ route, color }) => {
-    return <Icon name={route.icon} size={30} color={global.AppTheme.onSurface} />;
+  const renderIcon = ({ route}) => {
+    return <Icon name={route.icon} size={30} color={global.AppTheme.onAppBar} />;
   };
 
   const handleTabPress = (newIndex) => {
@@ -71,8 +71,6 @@ export default function App() {
           accessibilityLabel="Navigation tabs"
           screenReaderOptions={screenReaderOptions}
           getAccessibilityLabel={accessibilityLabel}
-          barStyle={{ backgroundColor: global.AppTheme.backgroundColor }}
-
         />
       </NavigationContainer>
     </PaperProvider>

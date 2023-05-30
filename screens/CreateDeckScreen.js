@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import {
   View,
   Button,
@@ -9,7 +9,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { MD3LightTheme, MD3DarkTheme, TextInput, Title } from "react-native-paper";
+import {TextInput, Title } from "react-native-paper";
 import DropdownMenu from "../components/DropDownMenu";
 
 function CreateDeckScreen() {
@@ -21,24 +21,6 @@ function CreateDeckScreen() {
   const [selectedDeck, setSelectedDeck] = useState(null); // State to store the selected deck
 
   // Creates a local variable theme to adapt the inputs colors to the app theme
-  const theme = {
-    ...MD3LightTheme,
-    roundness: 2,
-    colors: {
-      ...MD3LightTheme.colors,
-      primary: '#3498db',
-      secondary: '#f1c40f',
-      tertiary: '#a1b2c3',
-    },
-    ...MD3DarkTheme,
-    roundness: 2,
-    colors: {
-      ...MD3DarkTheme.colors,
-      primary: '#3498db',
-      secondary: '#f1c40f',
-      tertiary: '#a1b2c3',
-    },
-  };
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -140,9 +122,9 @@ function CreateDeckScreen() {
         enabled
       >
         <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.card}>
+        <View style={[styles.card, { borderColor : global.AppTheme.onAppBackground, backgroundColor : global.AppTheme.menuBackground}]}>
 
-          <Title style={styles.title}>Now create your own Cards!</Title>
+          <Title style={styles.title}>Create a new Cards here :</Title>
             <DropdownMenu
               selectedDeck={selectedDeck}
               onDeckSelection={handleDeckSelection}
@@ -165,15 +147,15 @@ function CreateDeckScreen() {
             <View style={styles.buttonContainer}>
               <Button
                 title="Save Card"
-                color="#087E8A"
+                color={global.AppTheme.validate}
                 accessibilityLabel="Button to save your card in your local storage button"
                 onPress={saveCard}
-                disabled={isSaveDisabled}
+                PRISCY
               />
             </View>
           </View>
-          <View style={styles.card}>
-            <Title style={styles.title}>Create a new Deck here:</Title>
+          <View style={[styles.card, { borderColor : global.AppTheme.onAppBackground, backgroundColor : global.AppTheme.menuBackground}]}>
+            <Title style={styles.title}>Create a new Deck here :</Title>
             <TextInput
               label="Deck Name"
               value={deckName}
@@ -184,7 +166,7 @@ function CreateDeckScreen() {
           <View style={styles.buttonContainer}>
             <Button
               title="Create Deck"
-              color="#087E8A"
+              color={global.AppTheme.validate}
               accessibilityLabel="Button to create a new deck in your local storage button"
               onPress={createNewDeck}
             />
@@ -207,7 +189,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   card: {
-    backgroundColor: "lightgrey",
+    flex: 1,
+    justifyContent : "space-around",
+    borderWidth: 1,
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,

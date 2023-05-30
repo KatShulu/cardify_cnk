@@ -59,19 +59,19 @@ export default function CollectionsScreen() {
 
   const renderDeckItem = ({ item }) => (
     <TouchableOpacity onPress={() => openModal(item)}>
-      <View style={styles.box}>
-        <Title style={styles.title}>{withoutExtension(item)}</Title>
-        <Text style={styles.text} numberOfLines={2}></Text>
+      <View style={[styles.box, {backgroundColor : global.AppTheme.card, borderColor : global.AppTheme.onCard }]}>
+        <Title style={[styles.title, {color: global.AppTheme.onCard}]}>{withoutExtension(item)}</Title>
+        <Text style={[styles.text, {color :global.AppTheme.onMenuBackground}]} numberOfLines={2}></Text>
       </View>
     </TouchableOpacity>
   );
 
   const renderCardsItem = ({ item }) => (
     <View style={styles.cardContainer}>
-      <View style={styles.boxCard}>
+      <View style={[styles.boxCard,{backgroundColor : global.AppTheme.menuBackground}]}>
         <View style={styles.textContainer}>
           {Object.entries(item).map(([key, value]) => (
-            <Text key={key} style={styles.text}>
+            <Text key={key} style={[styles.text, {color :global.AppTheme.onMenuBackground}]}>
               <Text style={styles.keyText}>{key} : </Text>
               <Text style={styles.valueText}>{"\n" + value}</Text>
             </Text>
@@ -82,7 +82,7 @@ export default function CollectionsScreen() {
         <View style={styles.buttonContainer}>
           <IconButton
             icon="lead-pencil"
-            iconColor="#000"
+            iconColor={global.AppTheme.onMenuBackground}
             accessibilityLabel="Update"
             size={25}
             onPress={() => console.log("Update")}
@@ -92,7 +92,7 @@ export default function CollectionsScreen() {
         <View style={styles.buttonContainer}>
           <IconButton
             icon="trash-can-outline"
-            iconColor="#000"
+            iconColor={global.AppTheme.onMenuBackground}
             accessibilityLabel="Delete"
             size={25}
             onPress={() => console.log("Delete")}
@@ -113,10 +113,10 @@ export default function CollectionsScreen() {
         columnWrapperStyle={styles.column}
       />
       <Modal visible={isModalVisible} onRequestClose={closeModal}>
-        <View style={styles.modalContainer}>
+        <View style={[styles.modalContainer, {backgroundColor : global.AppTheme.appBackground}]}>
           <IconButton
             icon="close"
-            iconColor="#000"
+            iconColor={global.AppTheme.onMenuBackground}
             size={30}
             accessibilityLabel="Close"
             style={styles.deleteButton}
@@ -154,8 +154,6 @@ const styles = StyleSheet.create({
     height: 200,
     marginBottom: 10,
     overflow: "hidden",
-    backgroundColor: "#087E8A",
-    borderColor: "#F5F5F5",
     borderWidth: 2,
     elevation: 8,
   },
@@ -164,17 +162,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    color: "#F5F5F5",
   },
   text: {
     justifyContent: "center",
     alignItems: "center",
-    color: "#F5F5F5",
     textAlign: "center",
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: "lightgrey",
     paddingTop: 70,
   },
   cardContainer:{
@@ -197,7 +192,6 @@ const styles = StyleSheet.create({
     right: 10,
   },
   boxCard: {
-    backgroundColor: "#087E8A",
     marginTop: 40,
     width: "70%",
     height: "auto",

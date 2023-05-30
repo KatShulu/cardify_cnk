@@ -21,9 +21,9 @@ const DeckCompletion = ({ deckName, completion, percentage }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.deckName}>{deckName}</Text>
-      <View style={styles.progressContainer}>
+    <View style={[styles.container, {borderColor: global.AppTheme.validate}]}>
+      <Text style={[styles.deckName, {color: global.AppTheme.onAppBackground}]}>{deckName}</Text>
+      <View style={[styles.progressContainer, {backgroundColor : global.AppTheme.progressionBackround}]}>
         <View
           style={[
             styles.progressBar,
@@ -31,7 +31,7 @@ const DeckCompletion = ({ deckName, completion, percentage }) => {
           ]}
         />
       </View>
-      <Text style={styles.completion}>{completion} validated</Text>
+      <Text style={[styles.completion, {color: global.AppTheme.onAppBackground}]}>{completion} validated</Text>
       <Divider />
     </View>
   );
@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "lightblue",
   },
   deckName: {
     fontSize: 20,
@@ -56,6 +55,7 @@ const styles = StyleSheet.create({
   completion: {
     fontSize: 12,
     marginBottom: 5,
+    marginTop:5,
   },
   progressContainer: {
     height: 10,
