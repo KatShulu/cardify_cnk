@@ -139,114 +139,111 @@ export default function CollectionsScreen() {
             onPress={closeModal}
           ></IconButton>
           <FlatList data={cards} renderItem={renderCardsItem} numColumns={1} />
-        <View style={styles.deleteContainer}>
-        <Text style={styles.deleteText}>Delete Deck</Text>
         </View>
-        <IconButton
-          icon="trash-can-outline"
-          iconColor="#000"
-          size={30}
-          onPress={() => handleDeleteDeck(withoutExtension(selectedDeck))}
-          accessibilityLabel="DeleteButton"
-          style={styles.deleteButton}
+        <View style={styles.deleteBar}>
+          <Text style={styles.deleteText}>Delete deck</Text>
+          <IconButton
+            icon="trash-can-outline"
+            iconColor="red"
+            size={30}
+            onPress={() => handleDeleteDeck(withoutExtension(selectedDeck))}
+            accessibilityLabel="DeleteButton"
+            style={styles.deleteButton}
           ></IconButton>
-          </View>
+        </View>
       </Modal>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-  },
-  column: {
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginHorizontal: 10,
-  },
-  box: {
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    width: 180,
-    height: 200,
-    marginBottom: 10,
-    overflow: "hidden",
-    backgroundColor: "#087E8A",
-    borderColor: "#3C3C3C",
-    borderWidth: 2,
-    elevation: 8,
-  },
-  title: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    color: "#F5F5F5",
-  },
-  text: {
-    justifyContent: "center",
-    alignItems: "center",
-    color: "#F5F5F5",
-    textAlign: "center",
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: "lightgrey",
-    paddingTop: 70,
-  },
-  cardContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignContent: "center",
-  },
-  buttonsContainer: {
-    marginTop: 40,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignContent: "center",
-  },
-  buttonContainer: {
-    marginLeft: 5,
-  },
-  closeButton: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-  },
-  deleteButton: {
-    position: "absolute",
-    top: 20,
-    right: 170,
-  },
-  deleteContainer: {
-    position: 'absolute',
-    top: 10,
-    right: 130,
-    alignItems: "center",
-  },
-  deleteText: {
-    marginRight: 10,
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  boxCard: {
-    backgroundColor: "#087E8A",
-    marginTop: 40,
-    width: "70%",
-    height: "auto",
-    borderRadius: 8,
-  },
-  keyText: {
-    fontWeight: "bold",
-  },
-});
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    scrollContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 10,
+    },
+    column: {
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginHorizontal: 10,
+    },
+    box: {
+      borderRadius: 8,
+      alignItems: "center",
+      justifyContent: "center",
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      width: 180,
+      height: 200,
+      marginBottom: 10,
+      overflow: "hidden",
+      backgroundColor: "#087E8A",
+      borderColor: "#3C3C3C",
+      borderWidth: 2,
+      elevation: 8,
+    },
+    title: {
+      justifyContent: "center",
+      alignItems: "center",
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      color: "#F5F5F5",
+    },
+    text: {
+      justifyContent: "center",
+      alignItems: "center",
+      color: "#F5F5F5",
+      textAlign: "center",
+    },
+    modalContainer: {
+      flex: 1,
+      backgroundColor: "lightgrey",
+      paddingTop: 40,
+    },
+    cardContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignContent: "center",
+    },
+    buttonsContainer: {
+      marginTop: 40,
+      flexDirection: "row",
+      justifyContent: "center",
+      alignContent: "center",
+    },
+    buttonContainer: {
+      marginLeft: 5,
+    },
+    closeButton: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+    },
+    deleteBar: {
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "lightgrey",
+      position: "absolute",
+      bottom: 0,
+      width: "100%",
+    },
+    deleteText: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: 'red',
+    },
+    boxCard: {
+      backgroundColor: "#087E8A",
+      marginTop: 40,
+      width: "70%",
+      height: "auto",
+      borderRadius: 8,
+    },
+    keyText: {
+      fontWeight: "bold",
+    },
+  });
