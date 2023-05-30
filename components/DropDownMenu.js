@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     top: 0,
-    zIndex: 999,
     marginTop:10,
   },
   menuButton: {

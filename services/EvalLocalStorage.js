@@ -37,17 +37,42 @@ export const deleteEvaluationFile = async () => {
  * @throws {Error} If there's an error reading the evaluation file.
  */
 export const getEvaluationData = async () => {
-    try {
-      const evaluationContent = await FileSystem.readAsStringAsync(evaluationFilePath);
-      const evaluationData = JSON.parse(evaluationContent);
-      console.log(evaluationData)
+  try {
+    const evaluationContent = await FileSystem.readAsStringAsync(evaluationFilePath);
+    const evaluationData = JSON.parse(evaluationContent);
+    return evaluationData;
+  } catch (error) {
+    console.log("Error reading evaluation file:", error);
+    throw error;
+  }
+};
 
-      return evaluationData;
-    } catch (error) {
-      console.log("Error reading evaluation file:", error);
-      throw error;
+export const getEvaluationDataForDeck = async (deckName) => {
+  try {
+    console.log("Deck name:", deckName);
+
+    const evaluationData = await getEvaluationData();
+    console.log("Evaluation data:", evaluationData);
+
+    const deckData = {};
+
+    // Filter the evaluation data for the selected deck
+    for (const [cardKey, cardData] of Object.entries(evaluationData)) {
+      console.log("Card key:", cardKey);
+      if (cardKey.startsWith(deckName)) {
+        deckData[cardKey] = cardData;
+      }
     }
-  };
+
+    console.log("Deck data:", deckData);
+    return deckData;
+  } catch (error) {
+    console.log("Error fetching evaluation data for deck:", error);
+    return {};
+  }
+};
+
+
 
 /**
  * Increment the positive count for a card key

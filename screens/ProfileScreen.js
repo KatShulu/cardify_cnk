@@ -1,18 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
-  Platform,
-  ScrollView,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import { getDeckFilesNames } from "../services/DeckLocalStorage";
+import { getEvaluationDataForDeck } from "../services/EvalLocalStorage";
+import DeckCompletion from "../components/DeckCompletion";
+import ProfileSettingsContent from "../components/ProfileSettingsContent";
 
 export default function Profile() {
-    const sizeIcon = 30
+  const sizeIcon = 30;
+  const [statisticsVisible, setStatisticsVisible] = useState(false);
+  const [profileSettingsVisible, setProfileSettingsVisible] = useState(false);
+  const [deckProgress, setDeckProgress] = useState({});
+
+  const toggleStatistics = () => {
+    setStatisticsVisible(!statisticsVisible);
+  };
+
+  const toggleProfileSettings = () => {
+    setProfileSettingsVisible(!profileSettingsVisible);
+  };
+
+  const fetchDeckProgress = async () => {
+    try {
+      const deckFiles = await getDeckFilesNames();
+      const progress = {};
+
+      for (const deckFile of deckFiles) {
+        const deckName = deckFile.replace(".json", "");
+        const deckData = await getEvaluationDataForDeck(deckName);
+
+        const totalCards = Object.keys(deckData).length;
+        const validatedCards = Object.values(deckData).filter(
+          (card) => card.positive >= 1
+        ).length;
+        const completion = `${validatedCards}/${totalCards}`;
+        const percentage =
+          totalCards > 0 ? (validatedCards / totalCards) * 100 : 0;
+        progress[deckName] = { completion, percentage: percentage.toFixed(2) };
+      }
+
+      setDeckProgress(progress);
+    } catch (error) {
+      console.log("Error fetching deck progress:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDeckProgress();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.profileBox}>
@@ -26,32 +69,50 @@ export default function Profile() {
           />
         </View>
       </View>
-      <TouchableOpacity style={styles.profileBoxShadow}>
-        <View style={styles.cardIn}>
-          <View style={styles["ml-15"]}>
-            <Text style={styles.cardHeader}>Statistics</Text>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <TouchableOpacity
+          style={styles.profileBoxShadow}
+          onPress={toggleStatistics}
+        >
+          <View style={styles.cardIn}>
+            <View style={styles["ml-15"]}>
+              <Text style={styles.cardHeader}>Statistics</Text>
+            </View>
+            <View>
+              <Icon style={styles.icons} size={sizeIcon} name="medal" />
+            </View>
           </View>
+        </TouchableOpacity>
+
+        {statisticsVisible && (
           <View>
-            <Icon
-              style={styles.icons}
-              size={sizeIcon}
-              name="medal"
-            />
+            {Object.entries(deckProgress).map(([deckName, progress]) => (
+              <DeckCompletion
+                key={deckName}
+                deckName={deckName}
+                completion={progress.completion}
+                percentage={progress.percentage}
+              />
+            ))}
           </View>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.profileBoxShadow}>
-        <View style={styles.cardIn}>
-          <View style={styles["ml-15"]}>
-            <Text style={styles.cardHeader}>Profile settings</Text>
+        )}
+        <TouchableOpacity
+          style={styles.profileBoxShadow}
+          onPress={toggleProfileSettings}
+        >
+          <View style={styles.cardIn}>
+            <View style={styles["ml-15"]}>
+              <Text style={styles.cardHeader}>Profile settings</Text>
+            </View>
+            <Icon style={styles.icons} size={sizeIcon} name="cog" />
           </View>
-          <Icon
-              style={styles.icons}
-              size={sizeIcon}
-              name="content-save-settings"
-            />
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+        {profileSettingsVisible && (
+          <TouchableOpacity>
+            <ProfileSettingsContent />
+          </TouchableOpacity>
+        )}
+      </ScrollView>
     </View>
   );
 }
@@ -64,27 +125,29 @@ const styles = StyleSheet.create({
   cardIn: {
     fontSize: 20,
     paddingVertical: 10,
-    padding : 20,
+    paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   icons: {
     marginHorizontal: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   cardHeader: {
-    fontSize: 16,
+    fontSize: 25,
     fontWeight: "bold",
+    color: "#333",
   },
   profileText: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
+    color: "#333",
   },
   profileBox: {
     margin: 15,
-    elevation: 4,
+    elevation: 9,
     paddingHorizontal: 15,
     paddingVertical: 10,
     backgroundColor: "white",
@@ -99,15 +162,18 @@ const styles = StyleSheet.create({
   profileBoxShadow: {
     paddingVertical: 10,
     paddingHorizontal: 10,
-    backgroundColor: "white",
+    backgroundColor: "#EBFDFF",
     borderRadius: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "lightgray",
+    borderBottomWidth: 3,
+    borderBottomColor: "lightblue",
   },
   image: {
     height: 80,
     width: 80,
     backgroundColor: "gray",
     borderRadius: 40,
+  },
+  scrollContent: {
+    paddingBottom: 20,
   },
 });
