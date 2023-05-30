@@ -9,7 +9,6 @@ const NewCardButton = ({ onPress }) => {
   return (
     <View style={styles.container}>
       {/* Yes button */}
-
       <View style={[styles.buttonContainer, styles.bottomLeft]}>
         <IconButton
           icon="check"
@@ -48,11 +47,11 @@ const styles = StyleSheet.create({
   },
   bottomLeft: {
     bottom: -35,
-    left: 0,
+    left: 40,
   },
   bottomRight: {
     bottom: -35,
-    right: 0,
+    right: 40,
   },
   validate: {
     backgroundColor: "#82C1A6",
