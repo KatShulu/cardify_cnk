@@ -11,6 +11,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { getDeckFilesNames } from "../services/DeckLocalStorage";
 import { getEvaluationDataForDeck } from "../services/EvalLocalStorage";
 import DeckCompletion from "../components/DeckCompletion";
+import ProfileSettingsContent from "../components/ProfileSettingsContent";
 
 export default function Profile() {
   const sizeIcon = 30;
@@ -40,7 +41,8 @@ export default function Profile() {
           (card) => card.positive >= 1
         ).length;
         const completion = `${validatedCards}/${totalCards}`;
-        const percentage = totalCards > 0 ? (validatedCards / totalCards) * 100 : 0;
+        const percentage =
+          totalCards > 0 ? (validatedCards / totalCards) * 100 : 0;
         progress[deckName] = { completion, percentage: percentage.toFixed(2) };
       }
 
@@ -83,7 +85,7 @@ export default function Profile() {
         </TouchableOpacity>
 
         {statisticsVisible && (
-          <View style={styles.dropdownContent}>
+          <View>
             {Object.entries(deckProgress).map(([deckName, progress]) => (
               <DeckCompletion
                 key={deckName}
@@ -104,12 +106,12 @@ export default function Profile() {
             </View>
             <Icon style={styles.icons} size={sizeIcon} name="cog" />
           </View>
-          {profileSettingsVisible && (
-            <View style={styles.dropdownContent}>
-              <Text>Profile settings content goes here</Text>
-            </View>
-          )}
         </TouchableOpacity>
+        {profileSettingsVisible && (
+          <TouchableOpacity>
+            <ProfileSettingsContent />
+          </TouchableOpacity>
+        )}
       </ScrollView>
     </View>
   );
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
   profileBoxShadow: {
     paddingVertical: 10,
     paddingHorizontal: 10,
-    backgroundColor: "white",
+    backgroundColor: "#EBFDFF",
     borderRadius: 10,
     borderBottomWidth: 3,
     borderBottomColor: "lightblue",
@@ -170,19 +172,6 @@ const styles = StyleSheet.create({
     width: 80,
     backgroundColor: "gray",
     borderRadius: 40,
-  },
-  dropdownContent: {
-    padding: 15,
-    margin: 10,
-    backgroundColor: "white",
-    borderRadius: 10,
-    elevation: 2,
-    shadowColor: "black",
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 2,
-    },
   },
   scrollContent: {
     paddingBottom: 20,

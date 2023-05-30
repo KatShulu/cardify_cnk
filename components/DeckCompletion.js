@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Divider } from 'react-native-paper';
+import { Divider } from "react-native-paper";
 
 const DeckCompletion = ({ deckName, completion, percentage }) => {
   let progressColor;
@@ -21,13 +21,18 @@ const DeckCompletion = ({ deckName, completion, percentage }) => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.deckName}>{deckName}</Text>
       <View style={styles.progressContainer}>
-        <View style={[styles.progressBar, { width: `${percentage}%`, backgroundColor: progressColor }]} />
+        <View
+          style={[
+            styles.progressBar,
+            { width: `${percentage}%`, backgroundColor: progressColor },
+          ]}
+        />
       </View>
       <Text style={styles.completion}>{completion} validated</Text>
-      <Divider/>
+      <Divider />
     </View>
   );
 };
@@ -35,6 +40,13 @@ const DeckCompletion = ({ deckName, completion, percentage }) => {
 export default DeckCompletion;
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "lightblue",
+  },
   deckName: {
     fontSize: 20,
     fontWeight: "bold",
