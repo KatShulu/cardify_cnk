@@ -8,9 +8,11 @@ import {
   Modal,
 } from "react-native";
 import { IconButton, Title } from "react-native-paper";
-import { getDeckFilesNames } from "../services/DeckLocalStorage";
+import {
+  deleteDeckByName,
+  getDeckFilesNames,
+} from "../services/DeckLocalStorage";
 import { retrieveCardInDeck } from "../services/CardLocalStorage";
-import NewCardButton from "../components/NewCardButton";
 
 export default function CollectionsScreen() {
   const [decks, setDecks] = useState([]);
@@ -44,8 +46,22 @@ export default function CollectionsScreen() {
     }
   }, [selectedDeck]);
 
+  const handleDeleteDeck = async (deckName) => {
+    try {
+      await deleteDeckByName(deckName);
+      // Mettez à jour la liste des decks après la suppression
+      const updatedDecks = decks.filter((deck) => deck !== deckName);
+      setDecks(updatedDecks);
+    } catch (error) {
+      console.log(`Error deleting deck "${deckName}":`, error);
+    }
+  };
+
   const withoutExtension = (filename) => {
-    return filename.replace(".json", "");
+    if (filename) {
+      return filename.replace(".json", "");
+    }
+    return "";
   };
 
   const openModal = (deck) => {
@@ -119,11 +135,22 @@ export default function CollectionsScreen() {
             iconColor="#000"
             size={30}
             accessibilityLabel="Close"
-            style={styles.deleteButton}
+            style={styles.closeButton}
             onPress={closeModal}
           ></IconButton>
           <FlatList data={cards} renderItem={renderCardsItem} numColumns={1} />
+        <View style={styles.deleteContainer}>
+        <Text style={styles.deleteText}>Delete Deck</Text>
         </View>
+        <IconButton
+          icon="trash-can-outline"
+          iconColor="#000"
+          size={30}
+          onPress={() => handleDeleteDeck(withoutExtension(selectedDeck))}
+          accessibilityLabel="DeleteButton"
+          style={styles.deleteButton}
+          ></IconButton>
+          </View>
       </Modal>
     </View>
   );
@@ -177,7 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgrey",
     paddingTop: 70,
   },
-  cardContainer:{
+  cardContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignContent: "center",
@@ -191,10 +218,26 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginLeft: 5,
   },
+  closeButton: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+  },
   deleteButton: {
     position: "absolute",
+    top: 20,
+    right: 170,
+  },
+  deleteContainer: {
+    position: 'absolute',
     top: 10,
-    right: 10,
+    right: 130,
+    alignItems: "center",
+  },
+  deleteText: {
+    marginRight: 10,
+    fontSize: 18,
+    fontWeight: "bold",
   },
   boxCard: {
     backgroundColor: "#087E8A",
