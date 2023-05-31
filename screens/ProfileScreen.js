@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 1,
   },
   profileBoxShadow: {
     paddingVertical: 10,

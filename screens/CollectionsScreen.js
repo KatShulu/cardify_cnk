@@ -179,6 +179,7 @@ export default function CollectionsScreen() {
       width: 180,
       height: 200,
       marginBottom: 10,
+      marginTop: 15,
       overflow: "hidden",
       backgroundColor: "#087E8A",
       borderColor: "#3C3C3C",
