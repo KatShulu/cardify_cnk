@@ -53,7 +53,7 @@ export default function CollectionsScreen() {
       // Mettez à jour la liste des decks après la suppression
       const updatedDecks = decks.filter((deck) => deck !== deckName);
       setDecks(updatedDecks);
-      alert (deckName+ "deleted !")
+      alert(deckName + "deleted !");
     } catch (error) {
       console.log(`Error deleting deck "${deckName}":`, error);
     }
@@ -125,7 +125,7 @@ export default function CollectionsScreen() {
             accessibilityLabel="Update"
             size={25}
             onPress={() => console.log("Update")}
-            style={styles.validate}
+            style={styles.update}
           />
         </View>
         <View style={styles.buttonContainer}>
@@ -135,7 +135,7 @@ export default function CollectionsScreen() {
             accessibilityLabel="Delete"
             size={25}
             onPress={() => console.log("Delete")}
-            style={styles.Invalidate}
+            style={styles.deleteCard}
           />
         </View>
       </View>
@@ -173,11 +173,11 @@ export default function CollectionsScreen() {
               onPress={closeModal}
             />
 
-              <FlatList
-                data={cards}
-                renderItem={renderCardsItem}
-                numColumns={1}
-              />
+            <FlatList
+              data={cards}
+              renderItem={renderCardsItem}
+              numColumns={1}
+            />
 
             <View style={styles.deleteBar}>
               <Text style={styles.deleteText}>Delete deck</Text>
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
   text: {
     justifyContent: "center",
-    alignItems: "center",
+    alignContent: "center",
     color: "#F5F5F5",
     textAlign: "center",
   },
@@ -253,12 +253,10 @@ const styles = StyleSheet.create({
   cardContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    alignContent: "center",
+    alignItems: "center",
   },
   buttonsContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignContent: "center",
+    flexDirection: "row",
   },
   boxCard: {
     borderRadius: 8,
@@ -266,36 +264,37 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    width: "80%",
+    width: "70%",
     marginBottom: 10,
     overflow: "scroll",
     borderWidth: 2,
     elevation: 8,
   },
   textContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
     paddingVertical: 5,
-  },
+    },
   keyText: {
     fontWeight: "bold",
   },
   valueText: {
     flexWrap: "wrap",
+    textAlign: 'left'
   },
-  validate: {
-    backgroundColor: "#00A440",
+  update: {
+    backgroundColor: "#82C1A6",
     borderWidth: 0,
-    borderRadius: 0,
-    width: "100%",
+    borderRadius: 8,
+    width: "90%",
     height: 45,
   },
-  invalidate: {
-    backgroundColor: "#F32013",
+  deleteCard: {
+    backgroundColor: "#FF5A60",
     borderWidth: 0,
-    borderRadius: 0,
-    width: "100%",
+    borderRadius: 8,
+    width: "80%",
     height: 45,
+    marginLeft: 10,
   },
   closeButton: {
     alignSelf: "flex-end",
@@ -307,15 +306,15 @@ const styles = StyleSheet.create({
     flexGrow: 0,
   },
   deleteBar: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: "column",
     alignItems: "center",
     marginTop: 10,
+    marginBottom: -25,
   },
   deleteText: {
-    flex: 1,
     fontWeight: "bold",
     fontSize: 16,
+    marginBottom: -10,
     color: "#F32013",
   },
   deleteButton: {
