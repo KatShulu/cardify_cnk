@@ -15,6 +15,7 @@ export default DarkTheme = {
   onAppBar: "#ffdad8", //rose pale,
   activityIndicator: "#82C1A6",// a définir mais vert en attendant
   progressionBackround: "#a3a3a3", //
+  appBarBackground : "#2A272F" //color of the app bar
   
 };
 

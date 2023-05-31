@@ -29,7 +29,7 @@ export default function LearnScreen() {
       {selectedDeck ? (
         <RandomizeCard selectedDeck={selectedDeck} />
       ) : (
-        <Text style={{ color: global.AppTheme.onBackground }}
+        <Text style={{ color: global.AppTheme.onAppBackground }}
         >Veuillez selectionner un deck</Text>
       )}
     </View>

@@ -13,6 +13,8 @@ import CollectionsScreen from "./screens/CollectionsScreen.js";
 import ProfileScreen from "./screens/ProfileScreen.js"
 import DarkTheme from "./themes/DarkTheme.js";
 import LightTheme from "./themes/LightTheme.js";
+import {StatusBar} from 'react-native';
+
 
 export default function App() {
   let colorScheme = useColorScheme();
@@ -58,6 +60,10 @@ export default function App() {
   return (
     <PaperProvider>
       <NavigationContainer>
+      <StatusBar
+        color={global.AppTheme.AppBarBackground}
+        textColor={"white"}
+     />
         <Appbar.Header elevated = "true">
           <Appbar.Content title="Cardify" />
         </Appbar.Header>

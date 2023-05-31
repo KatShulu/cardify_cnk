@@ -64,7 +64,7 @@ const RandomizeCard = ({ selectedDeck }) => {
   if (deck.length === 0){
     return (
       <View style={styles.errorContainer}>
-        <Text style={{color: global.AppTheme.onPrimary}}>Le deck sélectionné est vide.</Text>
+        <Text style={{color: global.AppTheme.onAppBackground}}>Le deck sélectionné est vide.</Text>
       </View>
     );
   }else if (error || currentCardIndex === null) {
