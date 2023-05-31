@@ -148,7 +148,7 @@ export default function CollectionsScreen() {
             accessibilityLabel="Update"
             size={25}
             onPress={() => handleUpdateCard(item)}
-            style={styles.validate}
+            style={styles.update}
           />
         </View>
         <View style={styles.buttonContainer}>
@@ -163,7 +163,7 @@ export default function CollectionsScreen() {
                 Object.keys(item)[0]
               )
             }
-            style={styles.Invalidate}
+            style={styles.deleteCard}
           />
         </View>
       </View>
@@ -230,7 +230,7 @@ export default function CollectionsScreen() {
           <View
             style={[
               styles.modalContainer,
-              { backgroundColor: global.AppTheme.appBackground },
+              { backgroundColor: global.AppTheme.menuBackground },
             ]}
           >
             <IconButton
@@ -335,9 +335,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 200,
     marginBottom: 10,
+    marginTop: 15,
     overflow: "hidden",
-    backgroundColor: "#087E8A",
-    borderColor: "#3C3C3C",
     borderWidth: 2,
     elevation: 8,
   },
@@ -346,18 +345,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    color: "#F5F5F5",
   },
   text: {
     justifyContent: "center",
     alignItems: "center",
-    color: "#F5F5F5",
     textAlign: "center",
   },
 
   modalBackground: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -373,12 +369,10 @@ const styles = StyleSheet.create({
   cardContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    alignContent: "center",
+    alignItems: "center",
   },
   buttonsContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignContent: "center",
+    flexDirection: "row",
   },
   boxCard: {
     borderRadius: 8,
@@ -386,15 +380,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    width: "80%",
+    width: "70%",
     marginBottom: 10,
     overflow: "scroll",
     borderWidth: 2,
     elevation: 8,
   },
   textContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    width: "100%",
     paddingVertical: 5,
   },
   keyText: {
@@ -402,20 +395,22 @@ const styles = StyleSheet.create({
   },
   valueText: {
     flexWrap: "wrap",
+    textAlign: "left",
   },
-  validate: {
-    backgroundColor: "#00A440",
+  update: {
+    backgroundColor: "#82C1A6",
     borderWidth: 0,
-    borderRadius: 0,
-    width: "100%",
+    borderRadius: 8,
+    width: "90%",
     height: 45,
   },
-  invalidate: {
-    backgroundColor: "#F32013",
+  deleteCard: {
+    backgroundColor: "#FF5A60",
     borderWidth: 0,
-    borderRadius: 0,
-    width: "100%",
+    borderRadius: 8,
+    width: "80%",
     height: 45,
+    marginLeft: 10,
   },
   closeButton: {
     alignSelf: "flex-end",
@@ -427,16 +422,16 @@ const styles = StyleSheet.create({
     flexGrow: 0,
   },
   deleteBar: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: "column",
     alignItems: "center",
     marginTop: 10,
+    marginBottom: -25,
   },
   deleteText: {
-    flex: 1,
     fontWeight: "bold",
-    textAlign: "center",
-    color: "red",
+    fontSize: 16,
+    marginBottom: -10,
+    color: "#F32013",
   },
   deleteButton: {
     alignSelf: "flex-end",
