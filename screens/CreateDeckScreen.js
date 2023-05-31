@@ -59,10 +59,13 @@ function CreateDeckScreen() {
       await saveNewCardInDeck(selectedDeck, {
         [sanitizedNotion]: sanitizedDefinition,
       });
-
+      
       // Clear the inputs
       setNotion("");
       setDefinition("");
+
+      // Confirm the card is saved
+      alert("Card created successfully!");
 
       // Dismiss the keyboard
       Keyboard.dismiss();
@@ -127,7 +130,7 @@ function CreateDeckScreen() {
         enabled
       >
         <ScrollView contentContainerStyle={styles.container}>
-        <View style={[styles.card, { borderColor : global.AppTheme.onAppBackground, backgroundColor : global.AppTheme.menuBackground}]}>
+        <View style={[styles.card, { borderColor : global.AppTheme.accentColor, backgroundColor : global.AppTheme.menuBackground}]}>
 
           <Title style={styles.title}>Create a new Cards here :</Title>
             <DropdownMenu
@@ -158,7 +161,7 @@ function CreateDeckScreen() {
               />
             </View>
           </View>
-          <View style={[styles.card, { borderColor : global.AppTheme.onAppBackground, backgroundColor : global.AppTheme.menuBackground}]}>
+          <View style={[styles.card, { borderColor : global.AppTheme.accentColor, backgroundColor : global.AppTheme.menuBackground}]}>
             <Title style={styles.title}>Create a new Deck here :</Title>
             <TextInput
               label="Deck Name"

@@ -54,6 +54,7 @@ export default function CollectionsScreen() {
       const updatedDecks = decks.filter((deck) => deck !== deckName);
       setDecks(updatedDecks);
       alert(deckName + "deleted !");
+      alert(deckName + "deleted !");
     } catch (error) {
       console.log(`Error deleting deck "${deckName}":`, error);
     }
@@ -161,7 +162,7 @@ export default function CollectionsScreen() {
           <View
             style={[
               styles.modalContainer,
-              { backgroundColor: global.AppTheme.appBackground },
+              { backgroundColor: global.AppTheme.menuBackground },
             ]}
           >
             <IconButton
@@ -173,6 +174,11 @@ export default function CollectionsScreen() {
               onPress={closeModal}
             />
 
+            <FlatList
+              data={cards}
+              renderItem={renderCardsItem}
+              numColumns={1}
+            />
             <FlatList
               data={cards}
               renderItem={renderCardsItem}
@@ -215,9 +221,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 200,
     marginBottom: 10,
+    marginTop: 15,
     overflow: "hidden",
-    backgroundColor: "#087E8A",
-    borderColor: "#3C3C3C",
     borderWidth: 2,
     elevation: 8,
   },
@@ -226,18 +231,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    color: "#F5F5F5",
   },
   text: {
     justifyContent: "center",
-    alignContent: "center",
-    color: "#F5F5F5",
+    alignItems: "center",
     textAlign: "center",
   },
 
   modalBackground: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
   },
