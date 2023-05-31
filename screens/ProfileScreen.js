@@ -58,7 +58,7 @@ export default function Profile() {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.profileBox,  {borderColor : global.AppTheme.validate, backgroundColor:global.AppTheme.menuBackground}]}>
+      <View style={[styles.profileBox,  {borderColor : global.AppTheme.accentColor, backgroundColor:global.AppTheme.menuBackground}]}>
         <View style={[styles.cardIn ,]}>
           <View>
             <Text style={[styles.profileText, {color:global.AppTheme.onMenuBackground}]}>Jean-Mi</Text>
@@ -71,7 +71,7 @@ export default function Profile() {
       </View>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <TouchableOpacity
-          style={[styles.profileBoxShadow,{backgroundColor:global.AppTheme.menuBackground, borderBottomColor :global.AppTheme.validate}]}
+          style={[styles.profileBoxShadow,{backgroundColor:global.AppTheme.menuBackground, borderBottomColor :global.AppTheme.accentColor}]}
           onPress={toggleStatistics}
 
         >
@@ -98,7 +98,7 @@ export default function Profile() {
           </View>
         )}
         <TouchableOpacity
-          style={[styles.profileBoxShadow, {backgroundColor:global.AppTheme.menuBackground, borderBottomColor :global.AppTheme.validate}]}
+          style={[styles.profileBoxShadow, {backgroundColor:global.AppTheme.menuBackground, borderBottomColor :global.AppTheme.accentColor}]}
           onPress={toggleProfileSettings}
 
         >

@@ -5,11 +5,12 @@ export default DarkTheme = {
   onValidate: "#FFFFFF", //blanc,
   inValidate:"#FF5A60", //red,
   onInValidate : "#FFFFFF", //blanc,
+  accentColor: "#82C1A6" , //vert,
   cancel: "#FF5A60", //red,
   onCancel: "#FFFFFF", //blanc,
-  menuBackground: "#031927", //blue très foncé
+  menuBackground: "#2A272F", //color of the appbar
   onMenuBackground : "#FFFFFF", //blanc,
-  appBackground : "#000000", //noir, pas le bon a changer
+  appBackground : "#1C1B1F", //color of the app background
   onAppBackground : "#FFFFFF", //blanc,
   onAppBar: "#ffdad8", //rose pale,
   activityIndicator: "#82C1A6",// a définir mais vert en attendant

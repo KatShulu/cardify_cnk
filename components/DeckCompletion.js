@@ -21,7 +21,7 @@ const DeckCompletion = ({ deckName, completion, percentage }) => {
   }
 
   return (
-    <View style={[styles.container, {borderColor: global.AppTheme.validate}]}>
+    <View style={[styles.container, {borderColor: global.AppTheme.accentColor}]}>
       <Text style={[styles.deckName, {color: global.AppTheme.onAppBackground}]}>{deckName}</Text>
       <View style={[styles.progressContainer, {backgroundColor : global.AppTheme.progressionBackround}]}>
         <View
