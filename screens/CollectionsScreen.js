@@ -181,29 +181,16 @@ export default function CollectionsScreen() {
     try {
       const deckName = withoutExtension(selectedDeck);
       const cardKey = Object.keys(modifiedCard)[0];
-      const updatedCard = {
-        [cardKey]: {
-          word: newWord,
-          definition: newDefinition,
-        },
-      };
+
   
-      await updateCardInDeck(deckName, cardKey, updatedCard);
+      await updateCardInDeck(deckName, cardKey, newWord, newDefinition);
   
-      // Update the local state with the updated card
-      const updatedCards = cards.map((card) => {
-        const existingKey = Object.keys(card)[0];
-        if (existingKey === cardKey) {
-          return updatedCard;
-        }
-        return card;
-      });
-      setCards(updatedCards);
   
       // Close the modal after updating the card
       setModifiedCard(null);
       setNewWord("");
       setNewDefinition("");
+      setUpdateModalVisible(false); // Close the update modal
     } catch (error) {
       console.log(`Error updating card:`, error);
     }

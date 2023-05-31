@@ -31,7 +31,9 @@ export const saveNewCardInDeck = async (deckName, newCard) => {
   try {
     const deckFilePath = getDeckFilePath(deckName);
     const fileInfo = await FileSystem.getInfoAsync(deckFilePath);
-    const existingData = fileInfo.exists ? await retrieveCardInDeck(deckName) : [];
+    const existingData = fileInfo.exists
+      ? await retrieveCardInDeck(deckName)
+      : [];
 
     const combinedData = [...existingData, newCard];
     const combinedJsonData = JSON.stringify(combinedData);
@@ -43,8 +45,7 @@ export const saveNewCardInDeck = async (deckName, newCard) => {
     throw error;
   }
 };
-export const updateCardInDeck = async (deckName, key, updatedCard) => {
-  
+export const updateCardInDeck = async (deckName, key, newName, newDef) => {
   try {
     const deckFilePath = getDeckFilePath(deckName);
     const fileInfo = await FileSystem.getInfoAsync(deckFilePath);
@@ -57,17 +58,21 @@ export const updateCardInDeck = async (deckName, key, updatedCard) => {
     const existingData = await retrieveCardInDeck(deckName);
     const updatedData = existingData.map((card) => {
       const cardKey = Object.keys(card)[0];
+      const cardValue = Object.values(card)[0];
       if (cardKey === key) {
-        return { [key]: updatedCard };
+        const updatedCard = {
+          [newName]: newDef
+        };
+        return Object.fromEntries(Object.entries(updatedCard));
       }
       return card;
     });
 
     const updatedJsonData = JSON.stringify(updatedData);
     await FileSystem.writeAsStringAsync(deckFilePath, updatedJsonData);
-    console.log(`Card with key "${key}" updated successfully in deck "${deckName}"!`);
+    console.log(`Card updated successfully in deck "${deckName}"!`);
   } catch (error) {
-    console.log(`Error updating card in deck "${deckName}":`, error);
+    console.log(`Error updating card:`, error);
     throw error;
   }
 };
