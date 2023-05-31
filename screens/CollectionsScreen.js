@@ -7,22 +7,31 @@ import {
   FlatList,
   Modal,
   ScrollView,
+  TextInput,
 } from "react-native";
 import { IconButton, Title } from "react-native-paper";
 import {
   deleteDeckByName,
   getDeckFilesNames,
 } from "../services/DeckLocalStorage";
-import { retrieveCardInDeck } from "../services/CardLocalStorage";
+import {
+  retrieveCardInDeck,
+  deleteCardInDeck,
+  updateCardInDeck
+} from "../services/CardLocalStorage";
 
 export default function CollectionsScreen() {
   const [decks, setDecks] = useState([]);
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isGestionModalVisible, setGestionModalVisible] = useState(false);
+  const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
+
   const [cards, setCards] = useState(null);
   const [selectedDeck, setSelectedDeck] = useState(null);
+  const [modifiedCard, setModifiedCard] = useState(null);
+  const [newWord, setNewWord] = useState("");
+  const [newDefinition, setNewDefinition] = useState("");
 
   useEffect(() => {
-    // Récupérer les données des decks au montage du composant
     const fetchData = async () => {
       const data = await getDeckFilesNames();
       setDecks(data);
@@ -42,6 +51,7 @@ export default function CollectionsScreen() {
         console.log(`Error retrieving data for deck "${noJson}":`, error);
       }
     };
+
     if (selectedDeck) {
       fetchData();
     }
@@ -50,12 +60,25 @@ export default function CollectionsScreen() {
   const handleDeleteDeck = async (deckName) => {
     try {
       await deleteDeckByName(deckName);
-      // Mettez à jour la liste des decks après la suppression
       const updatedDecks = decks.filter((deck) => deck !== deckName);
       setDecks(updatedDecks);
-      alert (deckName+ "deleted !")
+      alert(`Deck ${deckName} deleted!`);
     } catch (error) {
       console.log(`Error deleting deck "${deckName}":`, error);
+    }
+  };
+
+  const handleDeleteCard = async (deckName, key) => {
+    try {
+      await deleteCardInDeck(deckName, key);
+      const updatedCards = cards.filter((card) => {
+        const cardKey = Object.keys(card)[0];
+        return cardKey !== key;
+      });
+      setCards(updatedCards);
+      alert(`Card with key ${key} deleted from deck ${deckName}!`);
+    } catch (error) {
+      console.log(`Error deleting card from deck "${deckName}":`, error);
     }
   };
 
@@ -68,11 +91,11 @@ export default function CollectionsScreen() {
 
   const openModal = (deck) => {
     setSelectedDeck(deck);
-    setModalVisible(true);
+    setGestionModalVisible(true);
   };
 
   const closeModal = () => {
-    setModalVisible(false);
+    setGestionModalVisible(false);
   };
 
   const renderDeckItem = ({ item }) => (
@@ -124,7 +147,7 @@ export default function CollectionsScreen() {
             iconColor={global.AppTheme.onMenuBackground}
             accessibilityLabel="Update"
             size={25}
-            onPress={() => console.log("Update")}
+            onPress={() => handleUpdateCard(item)}
             style={styles.validate}
           />
         </View>
@@ -134,7 +157,12 @@ export default function CollectionsScreen() {
             iconColor={global.AppTheme.onMenuBackground}
             accessibilityLabel="Delete"
             size={25}
-            onPress={() => console.log("Delete")}
+            onPress={() =>
+              handleDeleteCard(
+                withoutExtension(selectedDeck),
+                Object.keys(item)[0]
+              )
+            }
             style={styles.Invalidate}
           />
         </View>
@@ -142,17 +170,58 @@ export default function CollectionsScreen() {
     </View>
   );
 
+  const handleUpdateCard = (card) => {
+    setModifiedCard(card);
+    setNewWord("");
+    setNewDefinition("");
+    setUpdateModalVisible(true); // Set the update modal visible
+  };
+
+  const updateCard = async () => {
+    try {
+      const deckName = withoutExtension(selectedDeck);
+      const cardKey = Object.keys(modifiedCard)[0];
+      const updatedCard = {
+        [cardKey]: {
+          word: newWord,
+          definition: newDefinition,
+        },
+      };
+  
+      await updateCardInDeck(deckName, cardKey, updatedCard);
+  
+      // Update the local state with the updated card
+      const updatedCards = cards.map((card) => {
+        const existingKey = Object.keys(card)[0];
+        if (existingKey === cardKey) {
+          return updatedCard;
+        }
+        return card;
+      });
+      setCards(updatedCards);
+  
+      // Close the modal after updating the card
+      setModifiedCard(null);
+      setNewWord("");
+      setNewDefinition("");
+    } catch (error) {
+      console.log(`Error updating card:`, error);
+    }
+  };
+  
+  
+
   return (
     <View style={styles.container}>
       <FlatList
         data={decks}
         renderItem={renderDeckItem}
-        keyExtractor={(index) => index.toString()}
+        keyExtractor={(item, index) => index.toString()}
         numColumns={2}
         columnWrapperStyle={styles.column}
       />
       <Modal
-        visible={isModalVisible}
+        visible={isGestionModalVisible}
         onRequestClose={closeModal}
         transparent={true}
         animationType="fade"
@@ -173,11 +242,11 @@ export default function CollectionsScreen() {
               onPress={closeModal}
             />
 
-              <FlatList
-                data={cards}
-                renderItem={renderCardsItem}
-                numColumns={1}
-              />
+            <FlatList
+              data={cards}
+              renderItem={renderCardsItem}
+              numColumns={1}
+            />
 
             <View style={styles.deleteBar}>
               <Text style={styles.deleteText}>Delete deck</Text>
@@ -190,6 +259,57 @@ export default function CollectionsScreen() {
                 style={styles.deleteButton}
               />
             </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* New Modal for Card Modification */}
+      <Modal
+        visible={modifiedCard !== null}
+        onRequestClose={() => {
+          setModifiedCard(null);
+          setNewWord("");
+          setNewDefinition("");
+        }}
+        transparent={true}
+        animationType="fade"
+      >
+        <View style={styles.modalBackground}>
+          <View
+            style={[
+              styles.modalContainer,
+              { backgroundColor: global.AppTheme.appBackground },
+            ]}
+          >
+            <IconButton
+              icon="close"
+              iconColor={global.AppTheme.onMenuBackground}
+              size={30}
+              accessibilityLabel="Close"
+              style={styles.closeButton}
+              onPress={() => {
+                setModifiedCard(null);
+                setNewWord("");
+                setNewDefinition("");
+                setUpdateModalVisible(false); // Close the update modal
+              }}
+            />
+            <Text style={styles.updateLabel}>Update Card</Text>
+            <TextInput
+              style={styles.input}
+              value={newWord}
+              onChangeText={setNewWord}
+              placeholder="New Word"
+            />
+            <TextInput
+              style={styles.input}
+              value={newDefinition}
+              onChangeText={setNewDefinition}
+              placeholder="New Definition"
+            />
+            <TouchableOpacity style={styles.updateButton} onPress={updateCard}>
+              <Text style={styles.updateButtonText}>Update</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -315,10 +435,39 @@ const styles = StyleSheet.create({
   deleteText: {
     flex: 1,
     fontWeight: "bold",
-    fontSize: 16,
-    color: "#F32013",
+    textAlign: "center",
+    color: "red",
   },
   deleteButton: {
-    marginLeft: 10,
+    alignSelf: "flex-end",
+    margin: -10,
+    elevation: 5,
+  },
+  updateLabel: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  input: {
+    width: "100%",
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    marginBottom: 10,
+    paddingLeft: 10,
+  },
+  updateButton: {
+    width: "100%",
+    height: 40,
+    borderRadius: 4,
+    backgroundColor: "#00A440",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  updateButtonText: {
+    color: "#FFF",
+    fontWeight: "bold",
   },
 });

@@ -43,6 +43,35 @@ export const saveNewCardInDeck = async (deckName, newCard) => {
     throw error;
   }
 };
+export const updateCardInDeck = async (deckName, key, updatedCard) => {
+  try {
+    const deckFilePath = getDeckFilePath(deckName);
+    const fileInfo = await FileSystem.getInfoAsync(deckFilePath);
+
+    if (!fileInfo.exists) {
+      console.log(`Deck "${deckName}" does not exist. Cannot update card.`);
+      return;
+    }
+
+    const existingData = await retrieveCardInDeck(deckName);
+    const updatedData = existingData.map((card) => {
+      const cardKey = Object.keys(card)[0];
+      if (cardKey === key) {
+        return { [key]: updatedCard };
+      }
+      return card;
+    });
+
+    const updatedJsonData = JSON.stringify(updatedData);
+    await FileSystem.writeAsStringAsync(deckFilePath, updatedJsonData);
+    console.log(`Card with key "${key}" updated successfully in deck "${deckName}"!`);
+  } catch (error) {
+    console.log(`Error updating card in deck "${deckName}":`, error);
+    throw error;
+  }
+};
+
+
 
 /**
  * Delete a card from a deck.
