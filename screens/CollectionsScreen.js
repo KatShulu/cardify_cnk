@@ -53,7 +53,7 @@ export default function CollectionsScreen() {
       // Mettez à jour la liste des decks après la suppression
       const updatedDecks = decks.filter((deck) => deck !== deckName);
       setDecks(updatedDecks);
-      alert (deckName+ "deleted !")
+      alert(deckName + "deleted !");
     } catch (error) {
       console.log(`Error deleting deck "${deckName}":`, error);
     }
@@ -161,7 +161,7 @@ export default function CollectionsScreen() {
           <View
             style={[
               styles.modalContainer,
-              { backgroundColor: global.AppTheme.appBackground },
+              { backgroundColor: global.AppTheme.menuBackground },
             ]}
           >
             <IconButton
@@ -173,11 +173,11 @@ export default function CollectionsScreen() {
               onPress={closeModal}
             />
 
-              <FlatList
-                data={cards}
-                renderItem={renderCardsItem}
-                numColumns={1}
-              />
+            <FlatList
+              data={cards}
+              renderItem={renderCardsItem}
+              numColumns={1}
+            />
 
             <View style={styles.deleteBar}>
               <Text style={styles.deleteText}>Delete deck</Text>
@@ -217,8 +217,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 15,
     overflow: "hidden",
-    backgroundColor: "#087E8A",
-    borderColor: "#3C3C3C",
     borderWidth: 2,
     elevation: 8,
   },
@@ -227,18 +225,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    color: "#F5F5F5",
   },
   text: {
     justifyContent: "center",
     alignItems: "center",
-    color: "#F5F5F5",
     textAlign: "center",
   },
 
   modalBackground: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -285,14 +280,12 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   validate: {
-    backgroundColor: "#00A440",
     borderWidth: 0,
     borderRadius: 0,
     width: "100%",
     height: 45,
   },
   invalidate: {
-    backgroundColor: "#F32013",
     borderWidth: 0,
     borderRadius: 0,
     width: "100%",
