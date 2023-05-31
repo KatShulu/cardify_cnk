@@ -4,7 +4,7 @@ import { useState } from "react";
 import RandomizeCard from "../components/RandomizeCard";
 import DropdownMenu from "../components/DropDownMenu";
 
- // State to store the selected deck
+// State to store the selected deck
 const useSelectedDeck = () => {
   const [selectedDeck, setSelectedDeck] = useState(null);
 
@@ -24,13 +24,11 @@ export default function LearnScreen() {
       <DropdownMenu
         selectedDeck={selectedDeck}
         onDeckSelection={handleDeckSelection}
-        // isAbsolute={true}
       />
       {selectedDeck ? (
         <RandomizeCard selectedDeck={selectedDeck} />
       ) : (
-        <Text style={{ color: global.AppTheme.onAppBackground }}
-        >Veuillez selectionner un deck</Text>
+        <Text style={{ color: global.AppTheme.onAppBackground }}>Veuillez sélectionner un deck</Text>
       )}
     </View>
   );
@@ -39,7 +37,7 @@ export default function LearnScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    marginTop: 20,
     alignItems: "center",
   },
 });
