@@ -12,11 +12,11 @@ const NewCardButton = ({ onPress }) => {
       <View style={[styles.buttonContainer, styles.bottomLeft]}>
         <IconButton
           icon="check"
-          iconColor="#F5F5F5"
+          iconColor={global.AppTheme.onValidate}
           accessibilityLabel="Validate"
           size={buttonSize}
           onPress={()=>onPress(true)}
-          style={styles.validate}
+          style={[styles.validate, {backgroundColor : global.AppTheme.validate}]}
         />
       </View>
 
@@ -24,11 +24,11 @@ const NewCardButton = ({ onPress }) => {
       <View style={[styles.buttonContainer, styles.bottomRight]}>
         <IconButton
           icon="close"
-          iconColor="#F5F5F5"
+          iconColor={global.AppTheme.onInValidate}
           accessibilityLabel="Invalidate"
           size={buttonSize}
           onPress={()=>onPress(false)}
-          style={styles.Invalidate}
+          style={[styles.Invalidate, {backgroundColor : global.AppTheme.inValidate}]}
         />
       </View>
     </View>
@@ -47,19 +47,17 @@ const styles = StyleSheet.create({
   },
   bottomLeft: {
     bottom: -35,
-    left: 40,
+    left: 0,
   },
   bottomRight: {
     bottom: -35,
-    right: 40,
+    right: 0,
   },
   validate: {
-    backgroundColor: "#82C1A6",
     borderRadius: 60,
   },
   Invalidate: {
     borderRadius: 60,
-    backgroundColor: "#FF5A60",
   },
 });
 

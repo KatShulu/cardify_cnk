@@ -4,7 +4,7 @@ import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import FlashCard from './FlashCard';
 import NewCardButton from './NewCardButton';
 import { retrieveCardInDeck } from '../services/CardLocalStorage';
-import {incrementPositiveCount, incrementNegativeCount, getEvaluationData} from "../services/EvalLocalStorage"
+import {incrementPositiveCount, incrementNegativeCount} from "../services/EvalLocalStorage"
 
 const RandomizeCard = ({ selectedDeck }) => {
   const [deck, setDeck] = useState([]);
@@ -57,14 +57,14 @@ const RandomizeCard = ({ selectedDeck }) => {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color= {global.AppTheme.activityIndicator}/>
       </View>
     );
   }
   if (deck.length === 0){
     return (
       <View style={styles.errorContainer}>
-        <Text>Le deck sélectionné est vide.</Text>
+        <Text style={{color: global.AppTheme.onPrimary}}>Le deck sélectionné est vide.</Text>
       </View>
     );
   }else if (error || currentCardIndex === null) {

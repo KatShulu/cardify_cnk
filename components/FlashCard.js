@@ -21,12 +21,12 @@ const FlashCard = ({ word, definition, isFlipped, handleFlipCard }) => {
   return (
     <View style={styles.cardContainer}>
       <TouchableWithoutFeedback onPress={handleFlipCard}>
-        <Animatable.View ref={cardRef} style={[styles.card, { width: cardWidth }]}>
+        <Animatable.View ref={cardRef} style={[styles.card, { width: cardWidth }, {borderColor: global.AppTheme.onCard, backgroundColor: global.AppTheme.card}]}>
           <Card.Content style={styles.content}>
             {!isFlipped ? (
-              <Text style={styles.text}>{word}</Text>
+              <Text style={[styles.text, {color: global.AppTheme.onCard}]}>{word}</Text>
             ) : (
-              <Text style={styles.text}>{definition}</Text>
+              <Text style={[styles.text, {color: global.AppTheme.onCard}]}>{definition}</Text>
             )}
           </Card.Content>
         </Animatable.View>
@@ -45,10 +45,8 @@ const styles = StyleSheet.create({
   card: {
     height: 500,
     borderRadius: 8,
-    backgroundColor: '#087E8A',
     elevation: 8,
     borderWidth: 5,
-    borderColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -58,7 +56,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     textAlign: 'center',
-    color: '#F5F5F5',
   },
 });
 

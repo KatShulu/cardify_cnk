@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import {
   View,
   Button,
@@ -6,21 +6,21 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Platform,
+  ScrollView,
+  StyleSheet,
 } from "react-native";
-import { TextInput, Title } from "react-native-paper";
-import { createDeckFile } from "../services/DeckLocalStorage";
-import {
-  saveNewCardInDeck,
-  retrieveCardInDeck,
-} from "../services/CardLocalStorage";
+import {TextInput, Title } from "react-native-paper";
 import DropdownMenu from "../components/DropDownMenu";
 
 function CreateDeckScreen() {
+
   const [notion, setNotion] = useState("");
   const [definition, setDefinition] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [deckName, setDeckName] = useState("");
   const [selectedDeck, setSelectedDeck] = useState(null); // State to store the selected deck
+
+  // Creates a local variable theme to adapt the inputs colors to the app theme
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -115,62 +115,90 @@ function CreateDeckScreen() {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
+
         behavior={Platform.OS === "ios" ? "padding" : null}
         // Adjusts the offset if needed
         keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
         enabled
       >
-        <View>
-          <Title>Now create your own Cards!</Title>
-          <DropdownMenu
-            selectedDeck={selectedDeck}
-            onDeckSelection={handleDeckSelection}
-          />
-          <TextInput
-            label="Notion"
-            value={notion}
-            placeholder="Enter your word or notion here"
-            onChangeText={(newText) => setNotion(newText)}
-          />
-          <TextInput
-            label="Definition"
-            value={definition}
-            placeholder="Enter what you would like to learn and remember about this notion"
-            onChangeText={(newText) => setDefinition(newText)}
-            multiline={true}
-          />
+        <ScrollView contentContainerStyle={styles.container}>
+        <View style={[styles.card, { borderColor : global.AppTheme.onAppBackground, backgroundColor : global.AppTheme.menuBackground}]}>
 
-          <Button
-            title="Save Card"
-            color="#087E8A"
-            accessibilityLabel="Button to save your card in your local storage button"
-            onPress={saveCard}
-            disabled={isSaveDisabled}
-          />
+          <Title style={styles.title}>Create a new Cards here :</Title>
+            <DropdownMenu
+              selectedDeck={selectedDeck}
+              onDeckSelection={handleDeckSelection}
+            />
+            <View>
+              <TextInput
+                label="Notion"
+                value={notion}
+                placeholder="Enter your word or notion here"
+                onChangeText={(newText) => setNotion(newText)}
+              />
+              <TextInput
+                label="Definition"
+                value={definition}
+                placeholder="Enter what you would like to learn and remember about this notion"
+                onChangeText={(newText) => setDefinition(newText)}
+                multiline={true}
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button
+                title="Save Card"
+                color={global.AppTheme.validate}
+                accessibilityLabel="Button to save your card in your local storage button"
+                onPress={saveCard}
+                PRISCY
+              />
+            </View>
+          </View>
+          <View style={[styles.card, { borderColor : global.AppTheme.onAppBackground, backgroundColor : global.AppTheme.menuBackground}]}>
+            <Title style={styles.title}>Create a new Deck here :</Title>
+            <TextInput
+              label="Deck Name"
+              value={deckName}
+              placeholder="Enter the name of the deck"
+              onChangeText={(newText) => setDeckName(newText)}
+            />
 
-          <Title>Create a new Deck here :</Title>
-          <TextInput
-            label="Deck Name"
-            value={deckName}
-            placeholder="Enter the name of the deck"
-            onChangeText={(newText) => setDeckName(newText)}
-          />
-          <Button
-            title="Create Deck"
-            color="#087E8A"
-            accessibilityLabel="Button to create a new deck in your local storage button"
-            onPress={createNewDeck}
-          />
-          <Button
-            title="Retrieve Data"
-            color="#1f8ded"
-            accessibilityLabel="Button to retrieve data for the selected deck"
-            onPress={handleRetrieveData}
-          />
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Create Deck"
+              color={global.AppTheme.validate}
+              accessibilityLabel="Button to create a new deck in your local storage button"
+              onPress={createNewDeck}
+            />
+          </View>
         </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  card: {
+    flex: 1,
+    justifyContent : "space-around",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 16,
+  },
+  buttonContainer: {
+    marginBottom: 16,
+  },
+});
 
 export default CreateDeckScreen;

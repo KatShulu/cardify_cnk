@@ -24,13 +24,13 @@ const ProfileSettingsContent = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {borderColor : global.AppTheme.cancel}]}>
       <TouchableOpacity onPress={handleDeleteEvaluationFile} style={styles.button}>
-        <Text style={styles.buttonText}>Delete Evaluation File</Text>
+        <Text style={[styles.buttonText, {color:global.AppTheme.onCancel}]}>Delete Evaluation File</Text>
       </TouchableOpacity>
-      <Divider style={styles.divider} />
-      <TouchableOpacity onPress={handleDeleteAllDecks} style={styles.button}>
-        <Text style={styles.buttonText}>Delete All Decks</Text>
+      <Divider/>
+      <TouchableOpacity onPress={handleDeleteAllDecks} style={[styles.button]}>
+        <Text style={[styles.buttonText, {color: global.AppTheme.onCancel}]}>Delete All Decks</Text>
       </TouchableOpacity>
     </View>
   );
@@ -44,12 +44,9 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "lightblue",
-    backgroundColor : "lightred"
   },
   button: {
     padding: 10,
-    backgroundColor: "white",
   
   },
   
