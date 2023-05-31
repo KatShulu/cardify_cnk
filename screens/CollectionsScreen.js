@@ -173,18 +173,11 @@ export default function CollectionsScreen() {
               style={styles.closeButton}
               onPress={closeModal}
             />
-
             <FlatList
               data={cards}
               renderItem={renderCardsItem}
               numColumns={1}
             />
-            <FlatList
-              data={cards}
-              renderItem={renderCardsItem}
-              numColumns={1}
-            />
-
             <View style={styles.deleteBar}>
               <Text style={styles.deleteText}>Delete deck</Text>
               <IconButton
@@ -273,15 +266,15 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   textContainer: {
-    width: '100%',
+    width: "100%",
     paddingVertical: 5,
-    },
+  },
   keyText: {
     fontWeight: "bold",
   },
   valueText: {
     flexWrap: "wrap",
-    textAlign: 'left'
+    textAlign: "left",
   },
   update: {
     backgroundColor: "#82C1A6",
