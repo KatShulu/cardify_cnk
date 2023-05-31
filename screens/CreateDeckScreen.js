@@ -155,7 +155,6 @@ function CreateDeckScreen() {
                 color={global.AppTheme.validate}
                 accessibilityLabel="Button to save your card in your local storage button"
                 onPress={saveCard}
-                PRISCY
               />
             </View>
           </View>
