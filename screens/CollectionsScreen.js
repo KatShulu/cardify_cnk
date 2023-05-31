@@ -8,9 +8,11 @@ import {
   Modal,
 } from "react-native";
 import { IconButton, Title } from "react-native-paper";
-import { getDeckFilesNames } from "../services/DeckLocalStorage";
+import {
+  deleteDeckByName,
+  getDeckFilesNames,
+} from "../services/DeckLocalStorage";
 import { retrieveCardInDeck } from "../services/CardLocalStorage";
-import NewCardButton from "../components/NewCardButton";
 
 export default function CollectionsScreen() {
   const [decks, setDecks] = useState([]);
@@ -44,8 +46,22 @@ export default function CollectionsScreen() {
     }
   }, [selectedDeck]);
 
+  const handleDeleteDeck = async (deckName) => {
+    try {
+      await deleteDeckByName(deckName);
+      // Mettez à jour la liste des decks après la suppression
+      const updatedDecks = decks.filter((deck) => deck !== deckName);
+      setDecks(updatedDecks);
+    } catch (error) {
+      console.log(`Error deleting deck "${deckName}":`, error);
+    }
+  };
+
   const withoutExtension = (filename) => {
-    return filename.replace(".json", "");
+    if (filename) {
+      return filename.replace(".json", "");
+    }
+    return "";
   };
 
   const openModal = (deck) => {
@@ -119,85 +135,115 @@ export default function CollectionsScreen() {
             iconColor={global.AppTheme.onMenuBackground}
             size={30}
             accessibilityLabel="Close"
-            style={styles.deleteButton}
+            style={styles.closeButton}
             onPress={closeModal}
           ></IconButton>
           <FlatList data={cards} renderItem={renderCardsItem} numColumns={1} />
+        </View>
+        <View style={styles.deleteBar}>
+          <Text style={styles.deleteText}>Delete deck</Text>
+          <IconButton
+            icon="trash-can-outline"
+            iconColor="red"
+            size={30}
+            onPress={() => handleDeleteDeck(withoutExtension(selectedDeck))}
+            accessibilityLabel="DeleteButton"
+            style={styles.deleteButton}
+          ></IconButton>
         </View>
       </Modal>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-  },
-  column: {
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginHorizontal: 10,
-  },
-  box: {
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    width: 180,
-    height: 200,
-    marginBottom: 10,
-    overflow: "hidden",
-    borderWidth: 2,
-    elevation: 8,
-  },
-  title: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  text: {
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-  },
-  modalContainer: {
-    flex: 1,
-    paddingTop: 70,
-  },
-  cardContainer:{
-    flexDirection: "row",
-    justifyContent: "center",
-    alignContent: "center",
-  },
-  buttonsContainer: {
-    marginTop: 40,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignContent: "center",
-  },
-  buttonContainer: {
-    marginLeft: 5,
-  },
-  deleteButton: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-  },
-  boxCard: {
-    marginTop: 40,
-    width: "70%",
-    height: "auto",
-    borderRadius: 8,
-  },
-  keyText: {
-    fontWeight: "bold",
-  },
-});
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    scrollContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 10,
+    },
+    column: {
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginHorizontal: 10,
+    },
+    box: {
+      borderRadius: 8,
+      alignItems: "center",
+      justifyContent: "center",
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      width: 180,
+      height: 200,
+      marginBottom: 10,
+      overflow: "hidden",
+      backgroundColor: "#087E8A",
+      borderColor: "#3C3C3C",
+      borderWidth: 2,
+      elevation: 8,
+    },
+    title: {
+      justifyContent: "center",
+      alignItems: "center",
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      color: "#F5F5F5",
+    },
+    text: {
+      justifyContent: "center",
+      alignItems: "center",
+      color: "#F5F5F5",
+      textAlign: "center",
+    },
+    modalContainer: {
+      flex: 1,
+      backgroundColor: "lightgrey",
+      paddingTop: 40,
+    },
+    cardContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignContent: "center",
+    },
+    buttonsContainer: {
+      marginTop: 40,
+      flexDirection: "row",
+      justifyContent: "center",
+      alignContent: "center",
+    },
+    buttonContainer: {
+      marginLeft: 5,
+    },
+    closeButton: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+    },
+    deleteBar: {
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "lightgrey",
+      position: "absolute",
+      bottom: 0,
+      width: "100%",
+    },
+    deleteText: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: 'red',
+    },
+    boxCard: {
+      backgroundColor: "#087E8A",
+      marginTop: 40,
+      width: "70%",
+      height: "auto",
+      borderRadius: 8,
+    },
+    keyText: {
+      fontWeight: "bold",
+    },
+  });
