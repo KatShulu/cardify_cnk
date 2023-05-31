@@ -11,6 +11,11 @@ import {
 } from "react-native";
 import {TextInput, Title } from "react-native-paper";
 import DropdownMenu from "../components/DropDownMenu";
+import { createDeckFile } from "../services/DeckLocalStorage";
+import {
+  saveNewCardInDeck,
+  retrieveCardInDeck,
+} from "../services/CardLocalStorage";
 
 function CreateDeckScreen() {
 
