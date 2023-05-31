@@ -59,10 +59,13 @@ function CreateDeckScreen() {
       await saveNewCardInDeck(selectedDeck, {
         [sanitizedNotion]: sanitizedDefinition,
       });
-
+      
       // Clear the inputs
       setNotion("");
       setDefinition("");
+
+      // Confirm the card is saved
+      alert("Card created successfully!");
 
       // Dismiss the keyboard
       Keyboard.dismiss();
