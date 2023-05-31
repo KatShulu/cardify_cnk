@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   Modal,
+  ScrollView,
 } from "react-native";
 import { IconButton, Title } from "react-native-paper";
 import {
@@ -52,6 +53,7 @@ export default function CollectionsScreen() {
       // Mettez à jour la liste des decks après la suppression
       const updatedDecks = decks.filter((deck) => deck !== deckName);
       setDecks(updatedDecks);
+      alert (deckName+ "deleted !")
     } catch (error) {
       console.log(`Error deleting deck "${deckName}":`, error);
     }
@@ -75,19 +77,40 @@ export default function CollectionsScreen() {
 
   const renderDeckItem = ({ item }) => (
     <TouchableOpacity onPress={() => openModal(item)}>
-      <View style={[styles.box, {backgroundColor : global.AppTheme.card, borderColor : global.AppTheme.onCard }]}>
-        <Title style={[styles.title, {color: global.AppTheme.onCard}]}>{withoutExtension(item)}</Title>
-        <Text style={[styles.text, {color :global.AppTheme.onMenuBackground}]} numberOfLines={2}></Text>
+      <View
+        style={[
+          styles.box,
+          {
+            backgroundColor: global.AppTheme.card,
+            borderColor: global.AppTheme.onCard,
+          },
+        ]}
+      >
+        <Title style={[styles.title, { color: global.AppTheme.onCard }]}>
+          {withoutExtension(item)}
+        </Title>
+        <Text
+          style={[styles.text, { color: global.AppTheme.onMenuBackground }]}
+          numberOfLines={2}
+        ></Text>
       </View>
     </TouchableOpacity>
   );
 
   const renderCardsItem = ({ item }) => (
     <View style={styles.cardContainer}>
-      <View style={[styles.boxCard,{backgroundColor : global.AppTheme.menuBackground}]}>
+      <View
+        style={[
+          styles.boxCard,
+          { backgroundColor: global.AppTheme.menuBackground },
+        ]}
+      >
         <View style={styles.textContainer}>
           {Object.entries(item).map(([key, value]) => (
-            <Text key={key} style={[styles.text, {color :global.AppTheme.onMenuBackground}]}>
+            <Text
+              key={key}
+              style={[styles.text, { color: global.AppTheme.onMenuBackground }]}
+            >
               <Text style={styles.keyText}>{key} : </Text>
               <Text style={styles.valueText}>{"\n" + value}</Text>
             </Text>
@@ -128,123 +151,175 @@ export default function CollectionsScreen() {
         numColumns={2}
         columnWrapperStyle={styles.column}
       />
-      <Modal visible={isModalVisible} onRequestClose={closeModal}>
-        <View style={[styles.modalContainer, {backgroundColor : global.AppTheme.appBackground}]}>
-          <IconButton
-            icon="close"
-            iconColor={global.AppTheme.onMenuBackground}
-            size={30}
-            accessibilityLabel="Close"
-            style={styles.closeButton}
-            onPress={closeModal}
-          ></IconButton>
-          <FlatList data={cards} renderItem={renderCardsItem} numColumns={1} />
-        </View>
-        <View style={styles.deleteBar}>
-          <Text style={styles.deleteText}>Delete deck</Text>
-          <IconButton
-            icon="trash-can-outline"
-            iconColor="red"
-            size={30}
-            onPress={() => handleDeleteDeck(withoutExtension(selectedDeck))}
-            accessibilityLabel="DeleteButton"
-            style={styles.deleteButton}
-          ></IconButton>
+      <Modal
+        visible={isModalVisible}
+        onRequestClose={closeModal}
+        transparent={true}
+        animationType="fade"
+      >
+        <View style={styles.modalBackground}>
+          <View
+            style={[
+              styles.modalContainer,
+              { backgroundColor: global.AppTheme.appBackground },
+            ]}
+          >
+            <IconButton
+              icon="close"
+              iconColor={global.AppTheme.onMenuBackground}
+              size={30}
+              accessibilityLabel="Close"
+              style={styles.closeButton}
+              onPress={closeModal}
+            />
+
+              <FlatList
+                data={cards}
+                renderItem={renderCardsItem}
+                numColumns={1}
+              />
+
+            <View style={styles.deleteBar}>
+              <Text style={styles.deleteText}>Delete deck</Text>
+              <IconButton
+                icon="trash-can-outline"
+                iconColor="red"
+                size={30}
+                onPress={() => handleDeleteDeck(withoutExtension(selectedDeck))}
+                accessibilityLabel="DeleteButton"
+                style={styles.deleteButton}
+              />
+            </View>
+          </View>
         </View>
       </Modal>
     </View>
   );
 }
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    scrollContainer: {
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-      padding: 10,
-    },
-    column: {
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginHorizontal: 10,
-    },
-    box: {
-      borderRadius: 8,
-      alignItems: "center",
-      justifyContent: "center",
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      width: 180,
-      height: 200,
-      marginBottom: 10,
-      marginTop: 15,
-      overflow: "hidden",
-      backgroundColor: "#087E8A",
-      borderColor: "#3C3C3C",
-      borderWidth: 2,
-      elevation: 8,
-    },
-    title: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      color: "#F5F5F5",
-    },
-    text: {
-      justifyContent: "center",
-      alignItems: "center",
-      color: "#F5F5F5",
-      textAlign: "center",
-    },
-    modalContainer: {
-      flex: 1,
-      backgroundColor: "lightgrey",
-      paddingTop: 40,
-    },
-    cardContainer: {
-      flexDirection: "row",
-      justifyContent: "center",
-      alignContent: "center",
-    },
-    buttonsContainer: {
-      marginTop: 40,
-      flexDirection: "row",
-      justifyContent: "center",
-      alignContent: "center",
-    },
-    buttonContainer: {
-      marginLeft: 5,
-    },
-    closeButton: {
-      position: "absolute",
-      top: 0,
-      right: 0,
-    },
-    deleteBar: {
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: "lightgrey",
-      position: "absolute",
-      bottom: 0,
-      width: "100%",
-    },
-    deleteText: {
-      fontSize: 16,
-      fontWeight: "bold",
-      color: 'red',
-    },
-    boxCard: {
-      backgroundColor: "#087E8A",
-      marginTop: 40,
-      width: "70%",
-      height: "auto",
-      borderRadius: 8,
-    },
-    keyText: {
-      fontWeight: "bold",
-    },
-  });
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  column: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginHorizontal: 10,
+  },
+  box: {
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    width: 180,
+    height: 200,
+    marginBottom: 10,
+    marginTop: 15,
+    overflow: "hidden",
+    backgroundColor: "#087E8A",
+    borderColor: "#3C3C3C",
+    borderWidth: 2,
+    elevation: 8,
+  },
+  title: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    color: "#F5F5F5",
+  },
+  text: {
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#F5F5F5",
+    textAlign: "center",
+  },
+
+  modalBackground: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    width: "90%",
+    maxHeight: "70%",
+    padding: 20,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    maxWidth: 500, // Set the desired maximum width here
+  },
+  cardContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  buttonsContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  boxCard: {
+    borderRadius: 8,
+    alignItems: "flex-start",
+    justifyContent: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    width: "80%",
+    marginBottom: 10,
+    overflow: "scroll",
+    borderWidth: 2,
+    elevation: 8,
+  },
+  textContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 5,
+  },
+  keyText: {
+    fontWeight: "bold",
+  },
+  valueText: {
+    flexWrap: "wrap",
+  },
+  validate: {
+    backgroundColor: "#00A440",
+    borderWidth: 0,
+    borderRadius: 0,
+    width: "100%",
+    height: 45,
+  },
+  invalidate: {
+    backgroundColor: "#F32013",
+    borderWidth: 0,
+    borderRadius: 0,
+    width: "100%",
+    height: 45,
+  },
+  closeButton: {
+    alignSelf: "flex-end",
+    margin: -10,
+    elevation: 5,
+  },
+  cardsContainer: {
+    maxHeight: "70%",
+    flexGrow: 0,
+  },
+  deleteBar: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  deleteText: {
+    flex: 1,
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#F32013",
+  },
+  deleteButton: {
+    marginLeft: 10,
+  },
+});
