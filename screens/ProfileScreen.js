@@ -58,10 +58,25 @@ export default function Profile() {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.profileBox,  {borderColor : global.AppTheme.accentColor, backgroundColor:global.AppTheme.menuBackground}]}>
-        <View style={[styles.cardIn ,]}>
+      <View
+        style={[
+          styles.profileBox,
+          {
+            borderColor: global.AppTheme.accentColor,
+            backgroundColor: global.AppTheme.menuBackground,
+          },
+        ]}
+      >
+        <View style={[styles.cardIn]}>
           <View>
-            <Text style={[styles.profileText, {color:global.AppTheme.onMenuBackground}]}>Jean-Mi</Text>
+            <Text
+              style={[
+                styles.profileText,
+                { color: global.AppTheme.onMenuBackground },
+              ]}
+            >
+              Jean-Mi
+            </Text>
           </View>
           <Image
             style={styles.image}
@@ -71,16 +86,35 @@ export default function Profile() {
       </View>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <TouchableOpacity
-          style={[styles.profileBoxShadow,{backgroundColor:global.AppTheme.menuBackground, borderBottomColor :global.AppTheme.accentColor}]}
+          style={[
+            styles.profileBoxShadow,
+            {
+              backgroundColor: global.AppTheme.menuBackground,
+              borderBottomColor: global.AppTheme.accentColor,
+            },
+          ]}
           onPress={toggleStatistics}
-
         >
           <View style={styles.cardIn}>
             <View style={styles["ml-15"]}>
-              <Text style={[styles.cardHeader, {color:global.AppTheme.onMenuBackground}]}>Statistics</Text>
+              <Text
+                style={[
+                  styles.cardHeader,
+                  { color: global.AppTheme.onMenuBackground },
+                ]}
+              >
+                Statistics
+              </Text>
             </View>
             <View>
-              <Icon style={[styles.icons, {color:global.AppTheme.onMenuBackground}]} size={sizeIcon} name="medal" />
+              <Icon
+                style={[
+                  styles.icons,
+                  { color: global.AppTheme.onMenuBackground },
+                ]}
+                size={sizeIcon}
+                name="medal"
+              />
             </View>
           </View>
         </TouchableOpacity>
@@ -98,15 +132,34 @@ export default function Profile() {
           </View>
         )}
         <TouchableOpacity
-          style={[styles.profileBoxShadow, {backgroundColor:global.AppTheme.menuBackground, borderBottomColor :global.AppTheme.accentColor}]}
+          style={[
+            styles.profileBoxShadow,
+            {
+              backgroundColor: global.AppTheme.menuBackground,
+              borderBottomColor: global.AppTheme.accentColor,
+            },
+          ]}
           onPress={toggleProfileSettings}
-
         >
           <View style={styles.cardIn}>
             <View style={styles["ml-15"]}>
-              <Text style={[styles.cardHeader,{color:global.AppTheme.onMenuBackground}]}>Profile settings</Text>
+              <Text
+                style={[
+                  styles.cardHeader,
+                  { color: global.AppTheme.onMenuBackground },
+                ]}
+              >
+                Profile settings
+              </Text>
             </View>
-            <Icon style={[styles.icons, {color:global.AppTheme.onMenuBackground}]} size={sizeIcon} name="cog" />
+            <Icon
+              style={[
+                styles.icons,
+                { color: global.AppTheme.onMenuBackground },
+              ]}
+              size={sizeIcon}
+              name="cog"
+            />
           </View>
         </TouchableOpacity>
         {profileSettingsVisible && (
@@ -122,7 +175,6 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
   },
   cardIn: {
     fontSize: 20,
@@ -139,7 +191,7 @@ const styles = StyleSheet.create({
   },
   cardHeader: {
     fontSize: 25,
-    fontWeight: "bold",    
+    fontWeight: "bold",
   },
   profileText: {
     fontSize: 16,
@@ -152,8 +204,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     borderWidth: 2,
-
-
   },
   profileBoxShadow: {
     paddingVertical: 10,

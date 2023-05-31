@@ -127,7 +127,7 @@ function CreateDeckScreen() {
         enabled
       >
         <ScrollView contentContainerStyle={styles.container}>
-        <View style={[styles.card, { borderColor : global.AppTheme.onAppBackground, backgroundColor : global.AppTheme.menuBackground}]}>
+        <View style={[styles.card, { borderColor : global.AppTheme.accentColor, backgroundColor : global.AppTheme.menuBackground}]}>
 
           <Title style={styles.title}>Create a new Cards here :</Title>
             <DropdownMenu
@@ -155,11 +155,10 @@ function CreateDeckScreen() {
                 color={global.AppTheme.validate}
                 accessibilityLabel="Button to save your card in your local storage button"
                 onPress={saveCard}
-                PRISCY
               />
             </View>
           </View>
-          <View style={[styles.card, { borderColor : global.AppTheme.onAppBackground, backgroundColor : global.AppTheme.menuBackground}]}>
+          <View style={[styles.card, { borderColor : global.AppTheme.accentColor, backgroundColor : global.AppTheme.menuBackground}]}>
             <Title style={styles.title}>Create a new Deck here :</Title>
             <TextInput
               label="Deck Name"

@@ -1,11 +1,11 @@
 export default DarkTheme = {
-  card: "#087E8A", //bleu canar,
+  card: "#087E8A", //bleu canard,
   onCard: "#FFFFFF", //blanc,
   validate: "#82C1A6" , //vert,
   onValidate: "#FFFFFF", //blanc,
-  inValidate:"#FF5A60", //red,
+  inValidate:"#FF5A60", //rouge,
   onInValidate : "#FFFFFF", //blanc,
-  accentColor: "#82C1A6" , //vert,
+  accentColor: "#D0BBFD" , //lavender,
   cancel: "#FF5A60", //red,
   onCancel: "#FFFFFF", //blanc,
   menuBackground: "#2A272F", //color of the appbar
