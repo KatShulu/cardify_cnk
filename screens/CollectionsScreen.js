@@ -425,16 +425,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     marginTop: 10,
-    marginBottom: -25,
+
   },
   deleteText: {
     fontWeight: "bold",
     fontSize: 16,
-    marginBottom: -10,
     color: "#F32013",
   },
   deleteButton: {
-    alignSelf: "flex-end",
     margin: -10,
     elevation: 5,
   },
