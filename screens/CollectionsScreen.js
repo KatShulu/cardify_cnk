@@ -38,7 +38,7 @@ export default function CollectionsScreen() {
     };
 
     fetchData();
-  }, []);
+  }, [decks]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,10 +63,16 @@ export default function CollectionsScreen() {
       const updatedDecks = decks.filter((deck) => deck !== deckName);
       setDecks(updatedDecks);
       alert(`Deck ${deckName} deleted!`);
+      closeModal(); // Close the modal after deleting the deck
+      
+      // Refetch the data
+      const data = await getDeckFilesNames();
+      setDecks(data);
     } catch (error) {
       console.log(`Error deleting deck "${deckName}":`, error);
     }
   };
+  
 
   const handleDeleteCard = async (deckName, key) => {
     try {

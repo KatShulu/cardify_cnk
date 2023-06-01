@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Menu, Divider, Text, IconButton } from "react-native-paper";
-import { StyleSheet, View} from "react-native";
-import { createDeckFile, getDeckFilesNames } from "../services/DeckLocalStorage";
+import { StyleSheet, View } from "react-native";
+import {
+  createDeckFile,
+  getDeckFilesNames,
+} from "../services/DeckLocalStorage";
 
-// Creating a dropdown menu component to select a deck when creating a card
-const DropdownMenu = ({ selectedDeck, onDeckSelection, isAbsolute  }) => {
-  //to delete if the layout is good -> const screenWidth = Dimensions.get("window").width;
-  
-  //If on learn screen absolute else flex
+const DropdownMenu = ({ selectedDeck, onDeckSelection, isAbsolute }) => {
   const menuContainerStyle = isAbsolute ? styles.container : null;
   const menuItemStyle = isAbsolute ? styles.absoluteMenuItem : styles.flexMenuItem;
 
   const [visible, setVisible] = useState(false);
   const [decks, setDecks] = useState([]);
+  const [menuButtonClicked, setMenuButtonClicked] = useState(false);
 
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  // This only triggers the effect when `selectedDeck` is changed
   useEffect(() => {
-    retrieveDeckNames();
-  }, [selectedDeck, createDeckFile]);
+    if (menuButtonClicked) {
+      retrieveDeckNames();
+      setMenuButtonClicked(false);
+    }
+  }, [menuButtonClicked]);
 
-  // Retrieves the Decks' Names to show as selectable options in the menu
   const retrieveDeckNames = async () => {
     try {
       const directoryContent = await getDeckFilesNames();
@@ -34,16 +35,19 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection, isAbsolute  }) => {
     }
   };
 
-  // When a deck is selected, it shows the deck's name and closes the menu
   const handleDeckSelection = (deck) => {
     onDeckSelection(deck);
     closeMenu();
   };
 
+  const handleMenuButtonClick = () => {
+    setMenuButtonClicked(true);
+    openMenu();
+  };
 
   return (
     <View style={menuContainerStyle}>
-      <View style={[styles.menuButton, {borderColor : global.AppTheme.onMenuBackground}]}>
+      <View style={[styles.menuButton, { borderColor: global.AppTheme.onMenuBackground }]}>
         <Text style={styles.menuText}>{selectedDeck || "Choose your Deck"}</Text>
         <Menu
           visible={visible}
@@ -51,7 +55,7 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection, isAbsolute  }) => {
           anchor={
             <IconButton
               icon="menu"
-              onPress={openMenu}
+              onPress={handleMenuButtonClick}
               color={global.AppTheme.onMenuBackground}
               size={30}
               style={styles.iconButton}
@@ -73,11 +77,12 @@ const DropdownMenu = ({ selectedDeck, onDeckSelection, isAbsolute  }) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
     top: 0,
-    marginTop:20,
+    marginTop: 20,
   },
   menuButton: {
     flexDirection: "row",
@@ -97,5 +102,30 @@ const styles = StyleSheet.create({
   },
 });
 
+const LearnScreen = () => {
+  const [selectedDeck, setSelectedDeck] = useState(null);
+
+  const handleDeckSelection = (deck) => {
+    setSelectedDeck(deck);
+  };
+
+  return (
+    <View style={styles.container}>
+      <DropdownMenu
+        selectedDeck={selectedDeck}
+        onDeckSelection={handleDeckSelection}
+        isAbsolute={false}
+      />
+      {selectedDeck ? (
+        <RandomizeCard selectedDeck={selectedDeck} />
+      ) : (
+        <Text style={{ color: global.AppTheme.onAppBackground }}>
+          Veuillez sélectionner un deck
+        </Text>
+      )}
+    </View>
+    
+  );
+};
 
 export default DropdownMenu;
