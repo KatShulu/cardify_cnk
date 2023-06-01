@@ -16,6 +16,7 @@ import {
   saveNewCardInDeck,
   retrieveCardInDeck,
 } from "../services/CardLocalStorage";
+import {createFlashcards} from "../fixtures"
 
 function CreateDeckScreen() {
 
@@ -96,28 +97,10 @@ function CreateDeckScreen() {
     }
   };
 
-  const handleRetrieveData = async () => {
-    if (!selectedDeck) {
-      alert("Please select a deck");
-      return;
-    }
-
-    try {
-      const deckData = await retrieveCardInDeck(selectedDeck);
-      console.log(`Retrieved data for deck "${selectedDeck}":`, deckData);
-      // Do something with the retrieved data
-    } catch (error) {
-      alert(
-        `Error retrieving data for deck "${selectedDeck}". Please try again.`
-      );
-    }
-  };
 
   const sanitizeInput = (input) => {
     return input.trim();
   };
-
-  const isSaveDisabled = !notion || !definition || isSaving;
 
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>

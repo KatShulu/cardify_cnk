@@ -17,7 +17,7 @@ import {
 import {
   retrieveCardInDeck,
   deleteCardInDeck,
-  updateCardInDeck
+  updateCardInDeck,
 } from "../services/CardLocalStorage";
 
 export default function CollectionsScreen() {
@@ -148,7 +148,10 @@ export default function CollectionsScreen() {
             accessibilityLabel="Update"
             size={25}
             onPress={() => handleUpdateCard(item)}
-            style={[styles.update, {backgroundColor :global.AppTheme.validate}]}
+            style={[
+              styles.update,
+              { backgroundColor: global.AppTheme.validate },
+            ]}
           />
         </View>
         <View style={styles.buttonContainer}>
@@ -163,7 +166,10 @@ export default function CollectionsScreen() {
                 Object.keys(item)[0]
               )
             }
-            style={[styles.deleteCard, {backgroundColor: global.AppTheme.cancel}]}
+            style={[
+              styles.deleteCard,
+              { backgroundColor: global.AppTheme.cancel },
+            ]}
           />
         </View>
       </View>
@@ -182,10 +188,8 @@ export default function CollectionsScreen() {
       const deckName = withoutExtension(selectedDeck);
       const cardKey = Object.keys(modifiedCard)[0];
 
-  
       await updateCardInDeck(deckName, cardKey, newWord, newDefinition);
-  
-  
+
       // Close the modal after updating the card
       setModifiedCard(null);
       setNewWord("");
@@ -195,10 +199,9 @@ export default function CollectionsScreen() {
       console.log(`Error updating card:`, error);
     }
   };
-  
-  
 
   return (
+    
     <View style={styles.container}>
       <FlatList
         data={decks}
@@ -213,7 +216,12 @@ export default function CollectionsScreen() {
         transparent={true}
         animationType="fade"
       >
-        <View style={styles.modalBackground}>
+        <View
+          style={[
+            styles.modalBackground,
+            { backgroundColor: "rgba(0, 0, 0, 0.5)" },
+          ]}
+        >
           <View
             style={[
               styles.modalContainer,
@@ -236,7 +244,11 @@ export default function CollectionsScreen() {
             />
 
             <View style={styles.deleteBar}>
-              <Text style={[styles.deleteText, {color: global.AppTheme.cancel}]}>Delete deck</Text>
+              <Text
+                style={[styles.deleteText, { color: global.AppTheme.cancel }]}
+              >
+                Delete deck
+              </Text>
               <IconButton
                 icon="trash-can-outline"
                 iconColor={global.AppTheme.cancel}
@@ -281,21 +293,47 @@ export default function CollectionsScreen() {
                 setUpdateModalVisible(false); // Close the update modal
               }}
             />
-            <Text style={[styles.updateLabel,{color:global.AppTheme.onMenuBackground}]}>Update Card</Text>
+            <Text
+              style={[
+                styles.updateLabel,
+                { color: global.AppTheme.onMenuBackground },
+              ]}
+            >
+              Update Card
+            </Text>
             <TextInput
-              style={[styles.input,{borderColor:global.AppTheme.accentColor}]}
+              style={[
+                styles.input,
+                { borderColor: global.AppTheme.accentColor },
+              ]}
               value={newWord}
               onChangeText={setNewWord}
               placeholder="New Word"
             />
             <TextInput
-              style={[styles.input,{borderColor:global.AppTheme.accentColor}]}
+              style={[
+                styles.input,
+                { borderColor: global.AppTheme.accentColor },
+              ]}
               value={newDefinition}
               onChangeText={setNewDefinition}
               placeholder="New Definition"
             />
-            <TouchableOpacity style={[styles.updateButton, {backgroundColor : global.AppTheme.validate}]} onPress={updateCard}>
-              <Text style={[styles.updateButtonText, {color : global.AppTheme.onValidate}]}>Update</Text>
+            <TouchableOpacity
+              style={[
+                styles.updateButton,
+                { backgroundColor: global.AppTheme.validate },
+              ]}
+              onPress={updateCard}
+            >
+              <Text
+                style={[
+                  styles.updateButtonText,
+                  { color: global.AppTheme.onValidate },
+                ]}
+              >
+                Update
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -410,7 +448,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     marginTop: 10,
-
   },
   deleteText: {
     fontWeight: "bold",
